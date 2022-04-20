@@ -9,4 +9,4 @@ class SobreviventeAdmin(admin.ModelAdmin):
 
 @admin.register(Inventario)
 class InventarioAdmin(admin.ModelAdmin):
-    list_display = ('id','agua','alimentacao','medicacao','municao')
+    list_display = ('sobrevivente','agua','alimentacao','medicacao','municao')
