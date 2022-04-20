@@ -4,9 +4,9 @@ from .models import Inventario, Sobrevivente
 
 @admin.register(Sobrevivente)
 class SobreviventeAdmin(admin.ModelAdmin):
-    list_display = ('nome','idade','sexo','infectado')
+    list_display = ('id','nome','idade','sexo','infectado')
 
 
 @admin.register(Inventario)
 class InventarioAdmin(admin.ModelAdmin):
-    list_display = ('agua','alimentacao','medicacao','municao')
+    list_display = ('id','agua','alimentacao','medicacao','municao')
