@@ -4,9 +4,9 @@ from .models import Sobrevivente, Inventario
 class SobreviventeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Sobrevivente
-        fields = ('nome','idade','sexo','')
+        fields = ('id','nome','idade','sexo','infectado')
 
 class InventarioSerializer(serializers.ModelSerializer):
     class Meta:
         model = Inventario
-        fields = ('agua','alimentacao','medicacao','municao')
+        fields = ('id','agua','alimentacao','medicacao','municao')
