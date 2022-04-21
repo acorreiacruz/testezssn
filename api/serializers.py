@@ -10,7 +10,7 @@ class InventarioSerializer(serializers.ModelSerializer):
 
 class SobreviventeSerializer(serializers.ModelSerializer):
 
-    inventario = InventarioSerializer()
+    inventario = InventarioSerializer(many=False, read_only=True)
 
     class Meta:
         model = Sobrevivente

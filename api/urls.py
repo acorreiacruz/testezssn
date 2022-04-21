@@ -4,6 +4,7 @@ from . import views
 app_name = "api"
 
 urlpatterns = [
+    
     path(
         'sobreviventes/<int:id>/', 
         views.detalhar_alterar_e_deletar_sobrevivente, 
