@@ -1,6 +1,5 @@
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
 from .models import Sobrevivente, Inventario
 from .serializers import SobreviventeSerializer, InventarioSerializer
 from rest_framework import status
@@ -17,7 +16,8 @@ class SobreviventesListarAPIView(APIView):
     def post(self, request):
         serializer = SobreviventeSerializer(data=request.data)
         serializer.is_valid(raise_exception=True) 
-        serializer.save() 
+        serializer.save()
+        return Response(serializer.data,status=status.HTTP_201_CREATED)
 
 class SobreviventeDetalharAPIView(APIView):
 
