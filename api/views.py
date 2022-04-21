@@ -41,7 +41,7 @@ class InventarioRetriveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
 class InvetarioNegociacar(APIView):
 
     # Tabela de preços do inventário
-    tabela_de_negocios = {
+    tabela_de_precos = {
         "agua": 4,
         "alimentacao": 3,
         "medicacao": 2,
@@ -82,8 +82,6 @@ class InvetarioNegociacar(APIView):
         inventario1 = sobrevivente1.inventario
         inventario2 = sobrevivente2.inventario
 
-        
-        
 
     
     def get(self, request, id1: int, id2: int):
