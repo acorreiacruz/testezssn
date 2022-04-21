@@ -7,22 +7,22 @@ urlpatterns = [
     
     path(
         'sobreviventes/<int:id>/', 
-        views.detalhar_alterar_e_deletar_sobrevivente, 
+        views.SobreviventeDetalharAPIView.as_view(), 
         name="detalhar_alterar_deletar_sobrevivente"
     ),
     path(
         'sobreviventes/', 
-        views.listar_ou_postar_sobrevivente, 
+        views.SobreviventesListarAPIView.as_view(), 
         name="listar_postar_sobrevivente"
     ),
     path(
         'inventarios/<int:id>/',
-        views.detalhar_alterar_e_deletar_inventario,
+        views.InventarioDetalharAPIView.as_view(),
         name="detalhar_alterar_deletar_inventario"
     ),
     path(
         'inventarios/', 
-        views.listar_ou_postar_inventario, 
+        views.InventarioLListarAPIVIew.as_view(), 
         name="inventarios"
     ),
 

@@ -1,95 +1,87 @@
+from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .models import Sobrevivente, Inventario
 from .serializers import SobreviventeSerializer, InventarioSerializer
 from rest_framework import status
+from rest_framework.views import APIView
 
 
-@api_view(['GET','POST'])
-def listar_ou_postar_sobrevivente(request):
+class SobreviventesListarAPIView(APIView):
 
-    '''
-        Lista todos os sobreviventes ou criar um novo
-    '''
-
-    if request.method == 'GET':
+    def get(self, request):
         sobreviventes = Sobrevivente.objects.all()
         serializer = SobreviventeSerializer(sobreviventes, many=True) 
         return Response(serializer.data)
     
-    if request.method == 'POST':
+    def post(self, request):
         serializer = SobreviventeSerializer(data=request.data)
         serializer.is_valid(raise_exception=True) 
         serializer.save() 
 
+class SobreviventeDetalharAPIView(APIView):
 
-@api_view(['GET','PUT','DELETE'])
-def detalhar_alterar_e_deletar_sobrevivente(request,id):
-    '''
-        Detalhar, alterar e deletar um sobrevivente
-    '''
-    try:
-        sobrevivente = Sobrevivente.objects.get(id=id)
-    except Sobrevivente.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-    
-    if request.method == 'GET':
+    def get_sobrevivente(self, id):
+        sobrevivente = get_object_or_404(
+            Sobrevivente.objects.all(),
+            id=id
+        )
+        return sobrevivente
+
+    def get(self, request, id):
+        sobrevivente = self.get_sobrevivente(id)
         serializer = SobreviventeSerializer(sobrevivente)
         return Response(serializer.data)
-    
-    if request.method == "PUT":
-        serializer = SobreviventeSerializer(sobrevivente, request.data)
+
+    def put(self, request, id):
+        sobrevivente = self.get_sobrevivente(id)
+        serializer = SobreviventeSerializer(instance=sobrevivente, data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data)
 
-    if request.method == 'DELETE':
+    def delete(self, request, id):
+        sobrevivente = self.get_sobrevivente(id)
         sobrevivente.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-@api_view(['GET','POST'])
-def listar_ou_postar_inventario(request):
-
-    '''
-        Listar todos os inventários ou criar um novo
-    '''
-
-    if request.method == "GET":
+class InventarioLListarAPIVIew(APIView):
+    def get(self, request):
         inventarios = Inventario.objects.all()
         serializer = InventarioSerializer(inventarios, many=True)
         return Response(serializer.data)
 
-    if request.method == 'POST':
+    def post(self , request):
         serializer = InventarioSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data,status=status.HTTP_201_CREATED)
 
-
-
-@api_view(['GET','PUT','DELETE'])
-def detalhar_alterar_e_deletar_inventario(request,id):
-
-    '''
-        Detalhar, alterar e deletar um inventário
-    '''
-
-    try:
-        inventario = Inventario.objects.get(id=id)
-    except Inventario.DoesNotExist:
-        return Response(status.HTTP_404_NOT_FOUND)
-
-    if request.method == 'GET':
-        serializer = InventarioSerializer(inventario)
-        return Response(serializer.data)
+class InventarioDetalharAPIView(APIView):
     
-    if request.method == 'PUT':
+    def get_inventario(self, id):
+        inventario = get_object_or_404(
+            Inventario.objects.all(),
+            id=id
+        )
+        return inventario
+
+    def get(self, request, id):
+        inventario = self.get_inventario(id)
+        serializer = InventarioSerializer(inventario)
+        return Response(serializer.data)        
+    
+    def put(self, request, id):
+        inventario = self.get_inventario(id)
         serializer = InventarioSerializer(inventario, data=request.data)
         serializer.is_valid(raise_exception=True)
         return Response(serializer.data)
     
-    if request.method == 'DELETE':
+    def delete(self, request, id):
+        inventario = self.get_inventario(id)
         inventario.delete()
-        return Response(status.HTTP_204_NO_CONTENT)
+        return Response(status.HTTP_204_NO_CONTENT)       
+
+
 
