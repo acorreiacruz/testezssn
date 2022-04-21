@@ -6,7 +6,7 @@ app_name = "api"
 urlpatterns = [
     
     path(
-        'sobreviventes/<int:id>/', 
+        'sobreviventes/<int:pk>/', 
         views.SobreviventeRetriveUpdateDestroyAPIView.as_view(), 
         name="detalhar_alterar_deletar_sobrevivente"
     ),
@@ -16,7 +16,7 @@ urlpatterns = [
         name="listar_postar_sobrevivente"
     ),
     path(
-        'inventarios/<int:id>/',
+        'inventarios/<int:pk>/',
         views.InventarioRetriveUpdateDestroyAPIView.as_view(),
         name="detalhar_alterar_deletar_inventario"
     ),
