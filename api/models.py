@@ -14,7 +14,7 @@ class Sobrevivente(models.Model):
     infectado = models.BooleanField()
     criado_em = models.DateTimeField(auto_now_add=True)
     atualizado_em = models.DateTimeField(auto_now=True)
-    qant_denuncias = models.PositiveIntegerField(null=False, blank=False, default=0)
+    quant_denuncias = models.PositiveIntegerField(null=False, blank=False, default=0)
 
     def __str__(self) -> str:
         return self.nome
