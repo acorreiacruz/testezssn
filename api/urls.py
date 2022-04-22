@@ -35,4 +35,9 @@ urlpatterns = [
         views.InventarioListCreateAPIView.as_view(), 
         name="inventarios"
     ),
+    path(
+        'sobreviventes/local/<int:id>/',
+        views.LocalAPIView.as_view(),
+        name='detalhar_atualizar_local'
+    )
 ]
