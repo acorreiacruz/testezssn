@@ -14,10 +14,10 @@ urlpatterns = [
         views.SobreviventeListCreateAPIView.as_view(), 
         name="listar_postar_sobrevivente"
     ),
-    path(
-        'inventarios/<int:id1>/negociar/<int:id2>/',
-        views.InvetarioNegociacar.as_view(),
-        name="inventario_negociar"
+    path(  # /<str:item1>/<str:item2>/
+        'sobreviventes/<int:id1>/negociar/<int:id2>/',
+        views.InvetarioNegociar.as_view(),
+        name="negociar_itens"
     
     ),
     path(
@@ -30,4 +30,9 @@ urlpatterns = [
         views.InventarioListCreateAPIView.as_view(), 
         name="inventarios"
     ),
+    path(
+        'sobreviventes/denunciar/<int:id/',
+        views.denunciar_infectado,
+        name='denunciar_infectado'
+    )
 ]
