@@ -1,15 +1,14 @@
+from msilib.schema import ServiceInstall
 from xmlrpc.client import Boolean
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
-from .models import Sobrevivente, Inventario
-from .serializers import SobreviventeSerializer, InventarioSerializer
+from .models import Sobrevivente, Inventario, Local
+from .serializers import LocalSerializer, SobreviventeSerializer, InventarioSerializer
 from rest_framework import status
 from rest_framework.views import APIView
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, RetrieveAPIView
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, RetrieveUpdateAPIView
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.decorators import api_view
-
-
 
 
 class PaginacaoCustomizada(PageNumberPagination):
@@ -37,6 +36,30 @@ class InventarioRetriveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
     queryset = Inventario.objects.all()
     serializer_class = InventarioSerializer
 
+class LocalAPIView(APIView):
+
+    '''
+        View que permite o sobrevivente tanto acessar sua localização bem como atualizar a partir do id dele.
+    '''
+    
+    def get_local(self, id):
+        local = get_object_or_404(
+            Local,
+            sobrevivente__id = id
+        )
+        return local
+    
+    def get(self, request, id):
+        local = self.get_local(id)
+        serializer = LocalSerializer(local)
+        return Response(data=serializer.data)
+
+    def post(self, request, id):
+        local = self.get_local(id)
+        serializer = LocalSerializer(instance=local, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        return Response(data=serializer.data)
+
 
 # Definindo a View que ira lidar com toda a parte de negociações da API
 class InvetarioNegociar(APIView):
@@ -50,7 +73,7 @@ class InvetarioNegociar(APIView):
     }
 
 
-    def get_sobrevivente_pelo_id(self, id: int) -> Sobrevivente:
+    def get_sobrevivente_pelo_id(self, id):
         '''
             Método que retorna uma instância da classe Sobrevivente pela primary key
         '''
@@ -62,14 +85,14 @@ class InvetarioNegociar(APIView):
         
         return sobrevivente
 
-    def get_inventario(self, sobrevivente: Sobrevivente) -> Inventario:
+    def get_inventario(self, sobrevivente):
         '''
             Método que recebe uma isntância de Sobrevivente e retorna o inventario.
         '''
         return sobrevivente.inventario
 
 
-    def se_infectado(self, id: int) -> Boolean:
+    def se_infectado(self, id):
         '''
             Método que verifica de se uma instância da classe Sobrevivente esta infectada a partir de sua primary key, retornando True para caso esteja infectado e False caso contrário.
         '''
@@ -82,7 +105,7 @@ class InvetarioNegociar(APIView):
             return False
 
 
-    def realizar_negocio(self, inventario1: Inventario , inventario2: Inventario, item1: str, item2: str) -> None:
+    def realizar_negocio(self, inventario1, inventario2, item1, item2):
         '''
             Função que recebe dois objetos do tipo Sobrevivente, os itens que cada um quer trocar, e realiza a processo de negociacao de itens entre eles.
         '''
@@ -95,7 +118,7 @@ class InvetarioNegociar(APIView):
 
 
 
-    def get(self, request, id1: int, id2: int):
+    def get(self, request, id1, id2):
 
         sobrevivente1 = self.get_sobrevivente_pelo_id(id1)
         sobrevivente2 = self.get_sobrevivente_pelo_id(id2)
@@ -138,9 +161,6 @@ def denunciar_infectado(request, pk):
         status=status.HTTP_201_CREATED
     )
 
-    
-
-    
 
 
     
