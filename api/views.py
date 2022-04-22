@@ -36,6 +36,7 @@ class InventarioRetriveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
     queryset = Inventario.objects.all()
     serializer_class = InventarioSerializer
 
+
 class LocalAPIView(APIView):
 
     '''
@@ -72,7 +73,6 @@ class InvetarioNegociar(APIView):
         "municao": 3
     }
 
-
     def get_sobrevivente_pelo_id(self, id):
         '''
             Método que retorna uma instância da classe Sobrevivente pela primary key
@@ -105,20 +105,45 @@ class InvetarioNegociar(APIView):
             return False
 
 
-    def realizar_negocio(self, inventario1, inventario2, item1, item2):
+    def realizar_negocio(self, inventario1, inventario2, item1, item2, quant1, quant2):
         '''
             Função que recebe dois objetos do tipo Sobrevivente, os itens que cada um quer trocar, e realiza a processo de negociacao de itens entre eles.
+
         '''
 
-        pontos1 = self.tabela_de_precos[item1] * inventario1.item1
-        pontos2 = self.tabela_de_precos[item2] * inventario2.item2
+        # Item1 : é o item que sobrevivente1 dono do inventário1 quer negociar
+        # Quant1: é quantidade do item1 que o sobrevivente1 quer negociar
+        # Item2: é o item que o sobrevivente2 dono do invntário2 quer negociar
+        # Quant2: é quantidade do item2 que o sobrevivente2 quer negociar
 
-        if pontos1 == pontos2 :
-            ...
+        if quant1 < inventario1.item1 and quant2 < inventario2.item2:
+            pontos1 = self.tabela_de_precos[item1] * quant1
+            pontos2 = self.tabela_de_precos[item2] * quant2
+            if pontos1 == pontos2:
+                inventario1.item1 -= quant1
+                inventario1.item2 += quant2
+                inventario2.item2 -= quant2
+                inventario2.item1 += quant1
+                inventario1.save()
+                inventario2.save()
 
+                return Response(
+                    data={"sucesso":"Negociação realizada com sucesso!"},
+                    status=status.HTTP_202_ACCEPTED
+                )
+            
+            return Response(
+                data={"invalido":"Negociaçao não igualitaária!"},
+                status=status.HTTP_406_NOT_ACCEPTABLE
+            )
 
+        return Response(
+            data={"invalido":"Negociaçao não igualitaária!"},
+            status=status.HTTP_406_NOT_ACCEPTABLE
+        )
+        
 
-    def get(self, request, id1, id2):
+    def get(self, request, id1, id2, item1, item2 , quant1, quant2):
 
         sobrevivente1 = self.get_sobrevivente_pelo_id(id1)
         sobrevivente2 = self.get_sobrevivente_pelo_id(id2)
@@ -132,7 +157,7 @@ class InvetarioNegociar(APIView):
         inventario1 = self.get_inventario(sobrevivente1)
         inventario2 = self.get_inventario(sobrevivente2)
 
-        self.realizar_negocio(inventario1, inventario2)
+        self.realizar_negocio(inventario1, inventario2, item1, item2 , quant1, quant2)
 
         return Response(
             data={"sucesso":"Negócio realizado com sucesso!"},
