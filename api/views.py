@@ -1,5 +1,3 @@
-from msilib.schema import ServiceInstall
-from xmlrpc.client import Boolean
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from .models import Sobrevivente, Inventario, Local
