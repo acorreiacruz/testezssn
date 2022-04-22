@@ -14,6 +14,6 @@ class SobreviventeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Sobrevivente
-        fields = ('id','nome','idade','sexo','infectado','inventario')
+        fields = ('id','nome','idade','sexo','infectado','inventario','quant_denuncias')
 
 
