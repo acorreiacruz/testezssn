@@ -5,18 +5,16 @@ from .models import Sobrevivente, Inventario
 from .serializers import SobreviventeSerializer, InventarioSerializer
 from rest_framework import status
 from rest_framework.views import APIView
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, RetrieveAPIView
 from rest_framework.pagination import PageNumberPagination
+from rest_framework.decorators import api_view
 
-"""
-    Infectado:
-        - Não pode acessar/manipular o inventário
-        - Não pode negociar
-"""
+
 
 
 class PaginacaoCustomizada(PageNumberPagination):
     page_size = 2
+
 
 class SobreviventeListCreateAPIView(ListCreateAPIView):
     queryset = Sobrevivente.objects.all()
@@ -28,17 +26,20 @@ class SobreviventeRetriveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
     queryset = Sobrevivente.objects.all()
     serializer_class = SobreviventeSerializer
 
+
 class InventarioListCreateAPIView(ListCreateAPIView):
     queryset = Inventario.objects.all()
     serializer_class = InventarioSerializer
     pagination_class = PaginacaoCustomizada
 
+
 class InventarioRetriveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
     queryset = Inventario.objects.all()
     serializer_class = InventarioSerializer
 
-# Definindo como path para a negociação /api/inventarios/id1/negociar/id2/
-class InvetarioNegociacar(APIView):
+
+# Definindo a View que ira lidar com toda a parte de negociações da API
+class InvetarioNegociar(APIView):
 
     # Tabela de preços do inventário
     tabela_de_precos = {
@@ -53,12 +54,19 @@ class InvetarioNegociacar(APIView):
         '''
             Método que retorna uma instância da classe Sobrevivente pela primary key
         '''
+
         sobrevivente = get_object_or_404(
             Sobrevivente.objects.all(),
             id=id
         )
         
         return sobrevivente
+
+    def get_inventario(self, sobrevivente: Sobrevivente) -> Inventario:
+        '''
+            Método que recebe uma isntância de Sobrevivente e retorna o inventario.
+        '''
+        return sobrevivente.inventario
 
 
     def se_infectado(self, id: int) -> Boolean:
@@ -74,16 +82,19 @@ class InvetarioNegociacar(APIView):
             return False
 
 
-    def realizar_negocio(self, sobrevivente1: Sobrevivente , sobrevivente2: Sobrevivente) -> None:
+    def realizar_negocio(self, inventario1: Inventario , inventario2: Inventario, item1: str, item2: str) -> None:
         '''
-            Função que recebe dois os objetos do tipo inventário e realiza a processo de negociacao de itens entre eles. Limitando a troca de itens do inventário a no máximo dois itens.
+            Função que recebe dois objetos do tipo Sobrevivente, os itens que cada um quer trocar, e realiza a processo de negociacao de itens entre eles.
         '''
-        
-        inventario1 = sobrevivente1.inventario
-        inventario2 = sobrevivente2.inventario
+
+        pontos1 = self.tabela_de_precos[item1] * inventario1.item1
+        pontos2 = self.tabela_de_precos[item2] * inventario2.item2
+
+        if pontos1 == pontos2 :
+            ...
 
 
-    
+
     def get(self, request, id1: int, id2: int):
 
         sobrevivente1 = self.get_sobrevivente_pelo_id(id1)
@@ -95,10 +106,41 @@ class InvetarioNegociacar(APIView):
                 status=status.HTTP_403_FORBIDDEN
             )
 
-        self.realizar_negocio(sobrevivente1, sobrevivente2)
+        inventario1 = self.get_inventario(sobrevivente1)
+        inventario2 = self.get_inventario(sobrevivente2)
+
+        self.realizar_negocio(inventario1, inventario2)
 
         return Response(
             data={"sucesso":"Negócio realizado com sucesso!"},
             status = status.HTTP_202_ACCEPTED
         )
 
+@api_view(['GET'])
+def denunciar_infectado(request, pk):
+    '''
+        View que ira lidar com as denúncias de infecção de um sombrevivente.
+    '''
+    sobrevivente = get_object_or_404(
+        Sobrevivente.objects.all(),
+        id=pk
+    )
+
+    sobrevivente.quant_denuncias += 1
+
+    if sobrevivente.quant_denuncias == 3:
+        sobrevivente.infectado = True
+    
+    sobrevivente.save()
+
+    return Response(
+        data={"sucesso":"Denúncia efetuada com sucesso!"},
+        status=status.HTTP_201_CREATED
+    )
+
+    
+
+    
+
+
+    

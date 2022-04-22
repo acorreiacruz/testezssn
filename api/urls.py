@@ -2,8 +2,13 @@ from django.urls import path
 from . import views
 
 app_name = "api"
-
+#sobreviventes
 urlpatterns = [
+    path(
+        'sobreviventes/denunciar/<int:pk>/',
+        views.denunciar_infectado,
+        name='denunciar_infectado'
+    ),
     path(
         'sobreviventes/<int:pk>/', 
         views.SobreviventeRetriveUpdateDestroyAPIView.as_view(), 
@@ -30,9 +35,4 @@ urlpatterns = [
         views.InventarioListCreateAPIView.as_view(), 
         name="inventarios"
     ),
-    path(
-        'sobreviventes/denunciar/<int:id/',
-        views.denunciar_infectado,
-        name='denunciar_infectado'
-    )
 ]
