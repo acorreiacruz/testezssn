@@ -18,11 +18,17 @@ class Sobrevivente(models.Model):
 
     def __str__(self) -> str:
         return self.nome
-    
+
+class Local(models.Model):
+
+    latitude = models.DecimalField(max_digits=22, decimal_places=16)
+    longitude = models.DecimalField(max_digits=22, decimal_places=16)
+    sobrevivente = models.OneToOneField(Sobrevivente,on_delete=models.CASCADE, null=False)
+
 class Inventario(models.Model):
 
     agua = models.PositiveIntegerField(null=False)
     alimentacao = models.PositiveIntegerField(null=False)
     medicacao = models.PositiveIntegerField(null=False)
     municao = models.PositiveIntegerField(null=False)
-    sobrevivente = models.OneToOneField(Sobrevivente, on_delete=models.CASCADE)
+    sobrevivente = models.OneToOneField(Sobrevivente, on_delete=models.CASCADE, null=False)
