@@ -96,11 +96,8 @@ class InvetarioNegociar(APIView):
         '''
 
         sobrevivente = self.get_sobrevivente_pelo_id(id)
-
-        if sobrevivente.infectado:
-            return True
-        else:
-            return False
+        
+        return True if sobrevivente.infectado else False
 
 
     def realizar_negocio(self, inventario1, inventario2, item1, item2, quant1, quant2):
