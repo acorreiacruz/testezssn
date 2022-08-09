@@ -1,12 +1,15 @@
 from django.shortcuts import get_object_or_404
-from rest_framework.response import Response
-from .models import Sobrevivente, Inventario, Local
-from .serializers import LocalSerializer, SobreviventeSerializer, InventarioSerializer
 from rest_framework import status
-from rest_framework.views import APIView
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, RetrieveUpdateAPIView
-from rest_framework.pagination import PageNumberPagination
 from rest_framework.decorators import api_view
+from rest_framework.generics import (ListCreateAPIView, RetrieveUpdateAPIView,
+                                     RetrieveUpdateDestroyAPIView)
+from rest_framework.pagination import PageNumberPagination
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
+from .models import Inventario, Local, Sobrevivente
+from .serializers import (InventarioSerializer, LocalSerializer,
+                          SobreviventeSerializer)
 
 
 class PaginacaoCustomizada(PageNumberPagination):
@@ -38,16 +41,16 @@ class InventarioRetriveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
 class LocalAPIView(APIView):
 
     '''
-        View que permite o sobrevivente tanto acessar sua localização bem como atualizar a partir do id dele.
+        View que permite o sobrevivente tanto acessar sua localização bem como atualizar a partir do id.
     '''
-    
+
     def get_local(self, id):
         local = get_object_or_404(
             Local,
             sobrevivente__id = id
         )
         return local
-    
+
     def get(self, request, id):
         local = self.get_local(id)
         serializer = LocalSerializer(local)
@@ -80,7 +83,7 @@ class InvetarioNegociar(APIView):
             Sobrevivente.objects.all(),
             id=id
         )
-        
+
         return sobrevivente
 
     def get_inventario(self, sobrevivente):
@@ -96,7 +99,7 @@ class InvetarioNegociar(APIView):
         '''
 
         sobrevivente = self.get_sobrevivente_pelo_id(id)
-        
+
         return True if sobrevivente.infectado else False
 
 
@@ -126,7 +129,7 @@ class InvetarioNegociar(APIView):
                     data={"sucesso":"Negociação realizada com sucesso!"},
                     status=status.HTTP_202_ACCEPTED
                 )
-            
+
             return Response(
                 data={"invalido":"Negociaçao não igualitaária!"},
                 status=status.HTTP_406_NOT_ACCEPTABLE
@@ -136,13 +139,13 @@ class InvetarioNegociar(APIView):
             data={"invalido":"Negociaçao não igualitaária!"},
             status=status.HTTP_406_NOT_ACCEPTABLE
         )
-        
+
 
     def get(self, request, id1, id2, item1, item2 , quant1, quant2):
 
         sobrevivente1 = self.get_sobrevivente_pelo_id(id1)
         sobrevivente2 = self.get_sobrevivente_pelo_id(id2)
-        
+
         if self.se_infectado(id1) and self.se_infectado(id2):
             return Response(
                 data={"proibido":"Um ou ambos os sobreviventes infectados!"},
@@ -162,7 +165,7 @@ class InvetarioNegociar(APIView):
 @api_view(['GET'])
 def denunciar_infectado(request, pk):
     '''
-        View que ira lidar com as denúncias de infecção de um sombrevivente.
+        View que ira lidar com as denúncias de infecção de um sobrevivente.
     '''
     sobrevivente = get_object_or_404(
         Sobrevivente.objects.all(),
@@ -173,7 +176,7 @@ def denunciar_infectado(request, pk):
 
     if sobrevivente.quant_denuncias == 3:
         sobrevivente.infectado = True
-    
+
     sobrevivente.save()
 
     return Response(
@@ -183,4 +186,4 @@ def denunciar_infectado(request, pk):
 
 
 
-    
+
