@@ -20,7 +20,7 @@ urlpatterns = [
         name="listar_postar_sobrevivente"
     ),
     path(
-        'sobreviventes/<int:id1>/<str:item1>/<int:qnt1>/negociar/<int:id2>/<str:item2>/<int:qnt2>',
+        'trocas/<int:id1>/<str:item1>/<int:qnt1>/<int:id2>/<str:item2>/<int:qnt2>/',
         views.InvetarioNegociar.as_view(),
         name="negociar_itens"
 
