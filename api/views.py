@@ -172,9 +172,9 @@ def denunciar_infectado(request, pk):
         id=pk
     )
 
-    sobrevivente.quant_denuncias += 1
+    sobrevivente.denuncias += 1
 
-    if sobrevivente.quant_denuncias == 3:
+    if sobrevivente.denuncias == 3:
         sobrevivente.infectado = True
 
     sobrevivente.save()
