@@ -137,4 +137,5 @@ GitHub.sublime-settings
 .history
 
 # Meus gitignore
-/utils/
+/utils/*.py
+migrations/
