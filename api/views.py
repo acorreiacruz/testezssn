@@ -6,7 +6,6 @@ from rest_framework.generics import (ListCreateAPIView, RetrieveUpdateAPIView,
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
 from .models import Inventario, Local, Sobrevivente
 from .serializers import (InventarioSerializer, LocalSerializer,
                           SobreviventeSerializer)
@@ -36,6 +35,29 @@ class InventarioListCreateAPIView(ListCreateAPIView):
 class InventarioRetriveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
     queryset = Inventario.objects.all()
     serializer_class = InventarioSerializer
+
+
+@api_view(['GET'])
+def denunciar_infectado(request, pk):
+    '''
+        View que ira lidar com as denúncias de infecção de um sobrevivente.
+    '''
+    sobrevivente = get_object_or_404(
+        Sobrevivente.objects.all(),
+        id=pk
+    )
+
+    sobrevivente.denuncias += 1
+
+    if sobrevivente.denuncias == 3:
+        sobrevivente.infectado = True
+
+    sobrevivente.save()
+
+    return Response(
+        data={"sucesso":"Denúncia efetuada com sucesso!"},
+        status=status.HTTP_201_CREATED
+    )
 
 
 class LocalAPIView(APIView):
@@ -162,27 +184,7 @@ class InvetarioNegociar(APIView):
             status = status.HTTP_202_ACCEPTED
         )
 
-@api_view(['GET'])
-def denunciar_infectado(request, pk):
-    '''
-        View que ira lidar com as denúncias de infecção de um sobrevivente.
-    '''
-    sobrevivente = get_object_or_404(
-        Sobrevivente.objects.all(),
-        id=pk
-    )
 
-    sobrevivente.denuncias += 1
-
-    if sobrevivente.denuncias == 3:
-        sobrevivente.infectado = True
-
-    sobrevivente.save()
-
-    return Response(
-        data={"sucesso":"Denúncia efetuada com sucesso!"},
-        status=status.HTTP_201_CREATED
-    )
 
 
 
