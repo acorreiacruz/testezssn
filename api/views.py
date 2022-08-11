@@ -69,7 +69,7 @@ class LocalAPIView(APIView):
     def get_local(self, id):
         local = get_object_or_404(
             Local,
-            sobrevivente__id = id
+            sobrevivente = id
         )
         return local
 
