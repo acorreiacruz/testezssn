@@ -27,8 +27,8 @@ class Local(models.Model):
 
 class Inventario(models.Model):
 
-    agua = models.PositiveIntegerField(null=False)
-    alimentacao = models.PositiveIntegerField(null=False)
-    medicacao = models.PositiveIntegerField(null=False)
-    municao = models.PositiveIntegerField(null=False)
+    agua = models.PositiveIntegerField(null=False, default=0)
+    alimentacao = models.PositiveIntegerField(null=False, default=0)
+    medicacao = models.PositiveIntegerField(null=False, default=0)
+    municao = models.PositiveIntegerField(null=False, default=0)
     sobrevivente = models.OneToOneField(Sobrevivente, on_delete=models.CASCADE, null=False)
