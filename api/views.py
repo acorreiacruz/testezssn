@@ -1,41 +1,29 @@
-from webbrowser import get
 from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.decorators import api_view
-from rest_framework.generics import (ListCreateAPIView, RetrieveUpdateAPIView,
-                                     RetrieveUpdateDestroyAPIView)
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import Inventario, Local, Sobrevivente
 from .serializers import (InventarioSerializer, LocalSerializer,
                           SobreviventeSerializer)
+from rest_framework import viewsets
 
 
 class PaginacaoCustomizada(PageNumberPagination):
     page_size = 2
 
 
-class SobreviventeListCreateAPIView(ListCreateAPIView):
+class SobreviventeModelViewSet(viewsets.ModelViewSet):
     queryset = Sobrevivente.objects.all()
     serializer_class = SobreviventeSerializer
     pagination_class = PaginacaoCustomizada
 
 
-class SobreviventeRetriveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
-    queryset = Sobrevivente.objects.all()
-    serializer_class = SobreviventeSerializer
-
-
-class InventarioListCreateAPIView(ListCreateAPIView):
+class InventarioReadOnlyModelViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Inventario.objects.all()
     serializer_class = InventarioSerializer
     pagination_class = PaginacaoCustomizada
-
-
-class InventarioRetriveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
-    queryset = Inventario.objects.all()
-    serializer_class = InventarioSerializer
 
 
 class LocalAPIView(APIView):
@@ -101,7 +89,7 @@ class NegociarItens(APIView):
         return True
 
 
-    def negociar_itens(self, request, usr1, itm1, qnt1, usr2, itm2, qnt2):
+    def get(self, request, usr1, itm1, qnt1, usr2, itm2, qnt2):
         inventario1 = self.get_inventario(usr1)
         inventario2 = self.get_inventario(usr2)
 
