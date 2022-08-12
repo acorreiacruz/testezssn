@@ -1,11 +1,11 @@
 from django.contrib import admin
-from .models import Inventario, Sobrevivente, Local
+from .models import Sobrevivente
 
 
 @admin.register(Sobrevivente)
 class SobreviventeAdmin(admin.ModelAdmin):
     list_display = (
         'id','nome','idade','sexo','infectado',
-        'denuncias','latitude', 'longitudade',
-        'agua','alimentacao','medicacao','municao'
+        'denuncias','agua','alimentacao','medicacao',
+        'municao','latitude', 'longitude'
     )
