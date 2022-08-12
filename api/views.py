@@ -1,3 +1,4 @@
+from webbrowser import get
 from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.decorators import api_view
@@ -37,33 +38,10 @@ class InventarioRetriveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
     serializer_class = InventarioSerializer
 
 
-@api_view(['GET'])
-def denunciar_infectado(request, pk):
-    '''
-        View que ira lidar com as denúncias de infecção de um sobrevivente.
-    '''
-    sobrevivente = get_object_or_404(
-        Sobrevivente.objects.all(),
-        id=pk
-    )
-
-    sobrevivente.denuncias += 1
-
-    if sobrevivente.denuncias == 3:
-        sobrevivente.infectado = True
-
-    sobrevivente.save()
-
-    return Response(
-        data={"sucesso":"Denúncia efetuada com sucesso!"},
-        status=status.HTTP_201_CREATED
-    )
-
-
 class LocalAPIView(APIView):
 
     '''
-        View que permite o sobrevivente tanto acessar sua localização bem como atualizar a partir do id.
+        View que permite o sobrevivente tanto acessar sua localização bem como atualizá-la a partir do seu id.
     '''
 
     def get_local(self, id):
@@ -85,106 +63,93 @@ class LocalAPIView(APIView):
         return Response(data=serializer.data)
 
 
-# Definindo a View que ira lidar com toda a parte de negociações da API
-class InvetarioNegociar(APIView):
-
-    # Tabela de preços do inventário
+class NegociarItens(APIView):
+    '''
+        Classe responsável por tratar de toda a parte de negociação de itens entre os sobreviventes.
+    '''
     tabela_de_precos = {
-        "agua": 4,
-        "alimentacao": 3,
-        "medicacao": 2,
-        "municao": 3
-    }
+            'agua':4,
+            'alimentacao':3,
+            'medicacao':2,
+            'municao':1,
+        }
 
-    def get_sobrevivente_pelo_id(self, id):
-        '''
-            Método que retorna uma instância da classe Sobrevivente pela primary key
-        '''
-
+    def get_sobrevivente(self, id):
         sobrevivente = get_object_or_404(
-            Sobrevivente.objects.all(),
-            id=id
+            Sobrevivente,
+            pk=id
         )
-
         return sobrevivente
 
-    def get_inventario(self, sobrevivente):
-        '''
-            Método que recebe uma isntância de Sobrevivente e retorna o inventario.
-        '''
+    def get_inventario(self, id):
+        sobrevivente = self.get_sobrevivente(id)
         return sobrevivente.inventario
 
+    def validar_troca(self, invt1, itm1, qnt1, invt2, itm2, qnt2):
+        if qnt1 > getattr(invt1, itm1) or qnt2 > getattr(invt2, itm2):
+            return False
 
-    def se_infectado(self, id):
-        '''
-            Método que verifica de se uma instância da classe Sobrevivente esta infectada a partir de sua primary key, retornando True para caso esteja infectado e False caso contrário.
-        '''
+        if qnt1 < 0 or qnt2 < 0:
+            return False
 
-        sobrevivente = self.get_sobrevivente_pelo_id(id)
+        if (getattr(invt1, itm1) == 0 and qnt1 > 0) or (getattr(invt2, itm2) == 0 and qnt2 > 0):
+            return False
 
-        return True if sobrevivente.infectado else False
+        if self.tabela_de_precos[itm1] * qnt1 != self.tabela_de_precos[itm2] * qnt2:
+            return False
 
-
-    def realizar_negocio(self, inventario1, inventario2, item1, item2, quant1, quant2):
-        '''
-            Função que recebe dois objetos do tipo Sobrevivente, os itens que cada um quer trocar, e realiza a processo de negociacao de itens entre eles.
-
-        '''
-
-        # Item1 : é o item que sobrevivente1 dono do inventário1 quer negociar
-        # Quant1: é quantidade do item1 que o sobrevivente1 quer negociar
-        # Item2: é o item que o sobrevivente2 dono do invntário2 quer negociar
-        # Quant2: é quantidade do item2 que o sobrevivente2 quer negociar
-
-        if quant1 < inventario1.item1 and quant2 < inventario2.item2:
-            pontos1 = self.tabela_de_precos[item1] * quant1
-            pontos2 = self.tabela_de_precos[item2] * quant2
-            if pontos1 == pontos2:
-                inventario1.item1 -= quant1
-                inventario1.item2 += quant2
-                inventario2.item2 -= quant2
-                inventario2.item1 += quant1
-                inventario1.save()
-                inventario2.save()
-
-                return Response(
-                    data={"sucesso":"Negociação realizada com sucesso!"},
-                    status=status.HTTP_202_ACCEPTED
-                )
-
-            return Response(
-                data={"invalido":"Negociaçao não igualitaária!"},
-                status=status.HTTP_406_NOT_ACCEPTABLE
-            )
-
-        return Response(
-            data={"invalido":"Negociaçao não igualitaária!"},
-            status=status.HTTP_406_NOT_ACCEPTABLE
-        )
+        return True
 
 
-    def get(self, request, id1, id2, item1, item2 , quant1, quant2):
+    def negociar_itens(self, request, usr1, itm1, qnt1, usr2, itm2, qnt2):
+        inventario1 = self.get_inventario(usr1)
+        inventario2 = self.get_inventario(usr2)
 
-        sobrevivente1 = self.get_sobrevivente_pelo_id(id1)
-        sobrevivente2 = self.get_sobrevivente_pelo_id(id2)
+        if self.validar_troca( inventario1, itm1, qnt1, inventario2, itm2, qnt2):
 
-        if self.se_infectado(id1) and self.se_infectado(id2):
-            return Response(
-                data={"proibido":"Um ou ambos os sobreviventes infectados!"},
-                status=status.HTTP_403_FORBIDDEN
-            )
+            valor_inicial = getattr(inventario1, itm1)
+            setattr(inventario1, itm1, valor_inicial - qnt1)
+            valor_inicial = getattr(inventario1, itm2)
+            setattr(inventario1, itm2, valor_inicial + qnt2)
 
-        inventario1 = self.get_inventario(sobrevivente1)
-        inventario2 = self.get_inventario(sobrevivente2)
+            valor_inicial = getattr(inventario2, itm2)
+            setattr(inventario2, itm2, valor_inicial - qnt2)
+            valor_inicial = getattr(inventario2, itm1)
+            setattr(inventario2, itm1, valor_inicial + qnt1)
 
-        self.realizar_negocio(inventario1, inventario2, item1, item2 , quant1, quant2)
+            inventario1.save()
+            inventario2.save()
 
-        return Response(
-            data={"sucesso":"Negócio realizado com sucesso!"},
-            status = status.HTTP_202_ACCEPTED
-        )
+            return Response({
+                "sucesso": "Operação de troca realizada com sucesso!"
+            }, status.HTTP_202_ACCEPTED)
+
+        return Response({
+            "invalido": "Operação de troca inválida!"
+        }, status.HTTP_403_FORBIDDEN)
 
 
+@api_view(['GET'])
+def denunciar_infectado(request, pk):
+    '''
+        View que ira lidar com as denúncias de infecção de um sobrevivente.
+    '''
+    sobrevivente = get_object_or_404(
+        Sobrevivente.objects.all(),
+        id=pk
+    )
+
+    sobrevivente.denuncias += 1
+
+    if sobrevivente.denuncias == 3:
+        sobrevivente.infectado = True
+
+    sobrevivente.save()
+
+    return Response(
+        data={"sucesso":"Denúncia efetuada com sucesso!"},
+        status=status.HTTP_201_CREATED
+    )
 
 
 
