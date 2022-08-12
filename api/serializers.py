@@ -1,24 +1,11 @@
 from rest_framework import serializers
-from .models import Inventario, Sobrevivente, Local
+from .models import Sobrevivente
 
-
-class LocalSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Local
-        fields = ('latitude','longitude','sobrevivente')
-
-class InventarioSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Inventario
-        fields = ('id','agua','alimentacao','medicacao','municao','sobrevivente')
 
 class SobreviventeSerializer(serializers.ModelSerializer):
 
-    inventario = InventarioSerializer(many=False, read_only=True)
-    local = LocalSerializer(many=False, read_only=True)
-
     class Meta:
         model = Sobrevivente
-        fields = ('id','nome','idade','sexo','infectado','quant_denuncias', 'inventario', 'local')
+        fields = ('id','nome','idade','sexo','infectado','denuncias','latitude', 'longitudade', 'agua','alimentacao','medicacao','municao')
 
 
