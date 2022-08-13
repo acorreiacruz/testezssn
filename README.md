@@ -28,14 +28,10 @@ As operações em si não precisam ser armazenadas, mas os itens devem ser trans
 
 <table>
   <thead>
-    <th></th>
-    <th></th>
+    <th>Item</th>
+    <th>Pontos</th>
   </thead>
   <tbody>
-    <tr>
-      <td>Item</td>
-      <td>Pontos</td>
-    </tr>
      <tr>
       <td>1 Água</td>
       <td>4 pontos</td>
@@ -56,11 +52,31 @@ As operações em si não precisam ser armazenadas, mas os itens devem ser trans
 </table>
 
 - **Relatórios**
+
 A API deve oferecer os seguintes relatórios:
+
 i. Porcentagem de sobreviventes infectados.
 ii. Porcentagem de sobreviventes não infectados.
 iii. Quantidade média de cada tipo de recurso por sobrevivente (por exemplo, 5 águas por sobrevivente)
 iv. Pontos perdidos por causa do sobrevivente infectado.
 
 ---
+
+- **Notas**
+1.	Nenhuma autenticação é necessária (é um apocalipse zumbi, ninguém tentará invadir um sistema enquanto estiver fugindo de uma horda de zumbis);
+2.	Ainda nos preocupamos com técnicas adequadas de programação e arquitetura; você deve mostrar ser digno de superar o apocalipse zumbi através da força de suas habilidades;
+3.	Não se esqueça de fazer pelo menos uma documentação mínima dos pontos de extremidade da API e como usá-los;
+4.	Você deve escrever pelo menos alguns testes automatizados;
+5.	Na descrição do problema acima, você pode fazer uma solução muito simples ou adicionar recursos opcionais que não estão descritos. Use seu tempo com sabedoria; a solução ótima absoluta pode levar muito tempo para ser eficaz no apocalipse, portanto, você deve encontrar a melhor solução possível que se mantenha no menor espaço de tempo e ainda consiga mostrar suas habilidades para provar seu valor.
+6.	Escreva mensagens de confirmação concisas e claras, dividindo suas alterações em pequenos pedaços.
+
+# **Solução**
+As tecnologias utilizadas para realizar o projeto foram Django e Django Rest Framework.
+
+# Para Instalar as dependências utilizadas no projetos:
+Após realizer o clone do projeto.
+```
+pip install -r requirements.txt
+```
+
 
