@@ -10,7 +10,7 @@ from rest_framework import viewsets
 
 
 class PaginacaoCustomizada(PageNumberPagination):
-    page_size = 2
+    page_size = 5
 
 
 class SobreviventeModelViewSet(viewsets.ModelViewSet):
