@@ -18,7 +18,7 @@ urlpatterns = [
                 'delete': 'destroy'
             }
         ),
-        name='sobrevivente_buscar_alterar_excluir'
+        name='buscar_alterar_excluir_sobrevivente'
     ),
     path(
         'sobreviventes/',
@@ -28,7 +28,7 @@ urlpatterns = [
                 'post': 'create'
             }
         ),
-        name="sobrevivente_listar_criar"
+        name="listar_criar_sobrevivente"
     ),
     path(
         'sobreviventes/trocas/<int:id1>/<str:itm1>/<int:qnt1>/<int:id2>/<str:itm2>/<int:qnt2>/',
