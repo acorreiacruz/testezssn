@@ -183,8 +183,8 @@ def medias_dos_inventarios(request):
     '''
         View responsável por calcular a quantidade média de cada tipo de recurso por sobrevivente.
     '''
-    total = numero_de_registros()
-    query_set = Sobrevivente.objects.all()
+    total = numero_de_infectados_ou_nao_infectados(False)
+    query_set = Sobrevivente.objects.filter(infectado=False)
 
     agua = 0
     alimentacao = 0
