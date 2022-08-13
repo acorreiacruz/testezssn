@@ -7,7 +7,7 @@ Você, como membro da resistência aos zumbis (e o último sobrevivente que sabe
 Use os seguintes Linguagens/ estruturas: Python e os Frameworks Django e Django Rest. Banco de Dados Postgres. Ferramenta de Controle de Versões Git. HTML, CSS, Javascript.
 Você desenvolverá uma API REST (sim, nós nos preocupamos com o design da arquitetura, mesmo no meio de um apocalipse zumbi!), que armazenará informações sobre os sobreviventes, bem como os recursos que eles possuem.
 Para fazer isso, a API deve atender aos seguintes casos de uso:
-**Adicionar sobreviventes ao banco de dados**
+- **Adicionar sobreviventes ao banco de dados**
 Um sobrevivente deve ter um nome, idade, sexo e último local (latitude, longitude).
 Um sobrevivente também possui um inventário de recursos de sua própria propriedade (que você precisa declarar quando do registro do sobrevivente).
 - **Atualizar local do sobrevivente**
@@ -25,4 +25,13 @@ Os sobreviventes podem trocar itens entre si.
 Para fazer isso, eles devem respeitar a tabela de preços abaixo, onde o valor de um item é descrito em termos de pontos.
 Ambos os lados do comércio devem oferecer a mesma quantidade de pontos. Por exemplo, 1 água e 1 medicamento (1 x 4 + 1 x 2) valem 6 munições (6 x 1) ou 2 itens alimentares (2 x 3).
 As operações em si não precisam ser armazenadas, mas os itens devem ser transferidos de um sobrevivente para o outro.
+| Item  | Pontos   |
+|-------|----------|
+| 1 Água | 4 pontos |
+|-------|----------|
+| 1 Alimentação | 3 pontos |
+|-------|----------|
+| 1 Medicamento | 2 pontos |
+|-------|----------|
+| 1 Municão | 1 pontos |
 
