@@ -25,13 +25,42 @@ Os sobreviventes podem trocar itens entre si.
 Para fazer isso, eles devem respeitar a tabela de preços abaixo, onde o valor de um item é descrito em termos de pontos.
 Ambos os lados do comércio devem oferecer a mesma quantidade de pontos. Por exemplo, 1 água e 1 medicamento (1 x 4 + 1 x 2) valem 6 munições (6 x 1) ou 2 itens alimentares (2 x 3).
 As operações em si não precisam ser armazenadas, mas os itens devem ser transferidos de um sobrevivente para o outro.
-| Item  | Pontos   |
-|-------|----------|
-| 1 Água | 4 pontos |
-|-------|----------|
-| 1 Alimentação | 3 pontos |
-|-------|----------|
-| 1 Medicamento | 2 pontos |
-|-------|----------|
-| 1 Municão | 1 pontos |
+
+<table>
+  <thead>
+    <th></th>
+    <th></th>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Item</td>
+      <td>Pontos</td>
+    </tr>
+     <tr>
+      <td>1 Água</td>
+      <td>4 pontos</td>
+    </tr>
+    <tr>
+      <td>1 Alimentação</td>
+      <td>3 pontos</td>
+    </tr>
+     <tr>
+      <td>1 Medicamento</td>
+      <td>2 pontos</td>
+    </tr>
+    <tr>
+      <td>1 Munição</td>
+      <td>1 ponto</td>
+    </tr>
+  </tbody>
+</table>
+
+- **Relatórios**
+A API deve oferecer os seguintes relatórios:
+i. Porcentagem de sobreviventes infectados.
+ii. Porcentagem de sobreviventes não infectados.
+iii. Quantidade média de cada tipo de recurso por sobrevivente (por exemplo, 5 águas por sobrevivente)
+iv. Pontos perdidos por causa do sobrevivente infectado.
+
+---
 
