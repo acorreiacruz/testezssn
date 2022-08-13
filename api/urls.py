@@ -36,17 +36,17 @@ urlpatterns = [
         name="negociar_itens"
     ),
     path(
-        'sobreviventes/infectados/',
+        'sobreviventes/relatorio/infectados/',
         views.porcentagem_infectados,
         name='porcentagem_infectados'
     ),
     path(
-        'sobreviventes/nao-infectados/',
+        'sobreviventes/relatorio/nao-infectados/',
         views.porcentagem_nao_infectados,
         name='porcentagem_nao_infectados'
     ),
     path(
-        'sobreviventes/medias-dos-inventarios/',
+        'sobreviventes/relatorio/medias-dos-inventarios/',
         views.medias_dos_inventarios,
         name='medias_do_inventario'
     ),
