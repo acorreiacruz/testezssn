@@ -46,8 +46,8 @@ urlpatterns = [
         name='porcentagem_nao_infectados'
     ),
     path(
-        'sobreviventes/medias-do-inventario/',
-        views.medias_do_inventario,
+        'sobreviventes/medias-dos-inventarios/',
+        views.medias_dos_inventarios,
         name='medias_do_inventario'
     ),
 ]

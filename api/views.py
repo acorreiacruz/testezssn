@@ -179,7 +179,7 @@ def porcentagem_nao_infectados(request):
     )
 
 @api_view(['get'])
-def medias_do_inventario(request):
+def medias_dos_inventarios(request):
     '''
         View responsável por calcular a quantidade média de cada tipo de recurso por sobrevivente.
     '''
