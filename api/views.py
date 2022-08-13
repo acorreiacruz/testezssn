@@ -186,7 +186,7 @@ def medias_dos_inventarios(request):
     total = numero_de_registros()
     query_set = Sobrevivente.objects.all()
 
-    agua = 0,
+    agua = 0
     alimentacao = 0
     medicacao = 0
     municao = 0
