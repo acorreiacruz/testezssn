@@ -73,10 +73,65 @@ iv. Pontos perdidos por causa do sobrevivente infectado.
 # **Solução**
 As tecnologias utilizadas para realizar o projeto foram Django e Django Rest Framework.
 
-# Para Instalar as dependências utilizadas no projetos:
-Após realizer o clone do projeto.
+# Como Iniciar:
+Após realizer o clone do projeto, para instalar todas as dependências utilizadas no mesmo, bast executar o comando abaixo:
 ```
 pip install -r requirements.txt
 ```
+# Endpoints utilizado na API
 
+<table>
+  <thead>
+    <th>Método HTTP</th>
+    <th>Endpoint</th>
+    <th>Resultado</th>
+  </thead>
+  <tbody>
+     <tr>
+      <td>GET</td>
+      <td>/sobreviventes/</td>
+      <td>Retorna todos os sobreviventes</td>
+    </tr>
+    <tr>
+      <td>GET</td>
+      <td>/sobreviventes/{id}/</td>
+      <td>Retorna um sobrevivente específico</td>
+    </tr>
+     <tr>
+      <td>GET</td>
+      <td>/sobreviventes/{id}/denuncia/</td>
+      <td>Realiza a denúncia de infectado desse sobrevivente</td>
+    </tr>
+    <tr>
+      <td>GET</td>
+      <td>/sobreviventes/tocas/{id1}/{item1}/{quant1}/{id2}/{item2}/{quant2}/</td>
+      <td>Realiza a troca de qunt1 quantidades do item1 do sobrevivente 1 com quant2 quantidades do item2 do sobrevivente 2, caso a operação seja válida. Vale ressaltar que item1 e item2 são strings.</td>
+    </tr>
+     <tr>
+      <td>POST</td>
+      <td>/sobreviventes/</td>
+      <td>Registra um sobrevivente</td>
+    </tr>
+    <tr>
+      <td>PATCH</td>
+      <td>/sobreviventes/{id}</td>
+      <td>Realiza alteração do último local do sobrevivente.</td>
+    </tr>
+    <tr>
+      <td>GET</td>
+      <td>sobreviventes/relatorio/infectados/</td>
+      <td>Retorna a porcentagem de infectados</td>
+    </tr>
+    <tr>
+      <td>GET</td>
+      <td>sobreviventes/relatorio/nao-infectados/</td>
+      <td>Retorna a porcentagem de não infectados</td>
+    </tr> 
+    <tr>
+      <td>GET</td>
+      <td>sobreviventes/relatorio/medias-dos-inventarios/</td>
+      <td>Retorna a quantidade média de cada item do inventário por sobrevivente</td>
+    </tr>     
+  </tbody>
+</table>
 
