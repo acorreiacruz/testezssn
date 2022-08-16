@@ -17,29 +17,28 @@ class SobreviventeModelViewSet(viewsets.ModelViewSet):
     http_method_names = ['get','post','patch','delete','options']
     campos = ['nome','sexo','infectado','agua','alimentacao','medicacao','municao']
 
-    def avaliar_partial(self, request_data):
-        chaves = list(request_data.keys())
+    def avaliar_partial(self):
+        chaves = list(self.request.data.keys())
         for campo in self.campos:
             if campo in chaves:
                 return False
         return True
 
     def partial_update(self, request, *args, **kwargs):
-        pk = kwargs.get('pk')
-        sobrevivente = self.get_queryset().filter(pk=pk).first()
-        if not self.avaliar_partial(request.data):
-            return Response(
-                {
-                    "proibido":"Para alterar o campo infectado e os que formam o inventário, realize uma denúncia, negocie itens respectivamente. Os demais não podem ser alterados após a criação."
-                },
-                status.HTTP_403_FORBIDDEN
-            )
+        sobrevivente = self.get_object()
+
+        if not self.avaliar_partial():
+            return Response(status=status.HTTP_403_FORBIDDEN)
+
         serializer = self.get_serializer(
             instance=sobrevivente,
-            data=request.data, partial=True
+            data=request.data,
+            partial=True
         )
+
         serializer.is_valid(raise_exception=True)
-        self.perform_update(serializer)
+        serializer.save()
+        
         return Response(serializer.data)
 
 
