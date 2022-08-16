@@ -2,44 +2,11 @@ from unittest.mock import patch
 from django.urls import resolve, reverse
 from parameterized import parameterized
 from rest_framework import test
-from .models import Sobrevivente
+from ..models import Sobrevivente
+from .test_base_mixin import TesteBaseMixin
 
 
-class ZssnTesteMixin():
-    def criar_sobrevivente(self,
-            nome='survivor',
-            idade=30,
-            sexo='M',
-            infectado=False,
-            denuncias= 0,
-            latitude=49.6954,
-            longitude=-77.9751,
-            agua=10,
-            alimentacao=10,
-            medicacao=10,
-            municao=10
-        ):
-        return Sobrevivente.objects.create(
-            nome=nome,
-            idade=idade,
-            sexo=sexo,
-            infectado=infectado,
-            denuncias=denuncias,
-            latitude=latitude,
-            longitude=longitude,
-            agua=agua,
-            alimentacao=alimentacao,
-            medicacao=medicacao,
-            municao=municao
-        )
-
-    def criar_conjunto_de_sobreviventes(self,quant):
-        for i in range(quant):
-            nome = f'survivor{i}'
-            self.criar_sobrevivente(nome=nome)
-
-
-class ZssnAPITest(test.APITestCase, ZssnTesteMixin):
+class ZssnAPITest(test.APITestCase, TesteBaseMixin):
 
     def test_se_listar_retorna_status_code_200(self):
         url = reverse('api:listar_criar_sobrevivente')
