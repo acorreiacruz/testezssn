@@ -7,6 +7,7 @@ from .models import Sobrevivente
 from .serializers import SobreviventeSerializer
 from rest_framework import viewsets
 from .pagination import PaginacaoCustomizada
+from rest_framework.decorators import action
 
 
 
@@ -38,8 +39,22 @@ class SobreviventeModelViewSet(viewsets.ModelViewSet):
 
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        
+
         return Response(serializer.data)
+
+    @action(
+        methods=['get',],
+        detail=True,
+        url_path='sobreviventes/denunciar/',
+        url_name=''
+    )
+    def denunciar(self):
+        sobrevivente = self.get_object()
+        sobrevivente.denuncias += 1
+        if sobrevivente.denuncias == 3:
+            sobrevivente.infectado = True
+        sobrevivente.save()
+        return Response(status=status.HTTP_201_CREATED)
 
 
 class NegociarItens(APIView):
@@ -118,26 +133,7 @@ class NegociarItens(APIView):
 
 
 @api_view(['GET'])
-def denunciar_infectado(request, pk):
-    '''
-        View que ira lidar com as denúncias de infecção de um sobrevivente.
-    '''
-    sobrevivente = get_object_or_404(
-        Sobrevivente.objects.all(),
-        id=pk
-    )
 
-    sobrevivente.denuncias += 1
-
-    if sobrevivente.denuncias == 3:
-        sobrevivente.infectado = True
-
-    sobrevivente.save()
-
-    return Response(
-        data={"sucesso":"Denuncia efetuada com sucesso!"},
-        status=status.HTTP_201_CREATED
-    )
 
 def numero_de_registros():
     total = len(Sobrevivente.objects.all())

@@ -13,13 +13,10 @@ api_sobreviventes_urls.register(
     basename='api-sobreviventes'
 )
 
+print(api_sobreviventes_urls.urls)
+
 
 urlpatterns = [
-    path(
-        'sobreviventes/<int:pk>/denuncia/',
-        views.denunciar_infectado,
-        name='denunciar_infectado'
-    ),
     path(
         'sobreviventes/trocas/<int:id1>/<str:itm1>/<int:qnt1>/<int:id2>/<str:itm2>/<int:qnt2>/',
         views.NegociarItens().as_view(),
