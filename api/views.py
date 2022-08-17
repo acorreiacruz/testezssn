@@ -1,22 +1,28 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import status
-from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework.views import APIView
 from .models import Sobrevivente
 from .serializers import SobreviventeSerializer
 from rest_framework import viewsets
+from rest_framework import views
 from .pagination import PaginacaoCustomizada
 from rest_framework.decorators import action
-
+from django.db.models import Sum, Avg
 
 
 class SobreviventeModelViewSet(viewsets.ModelViewSet):
-    queryset = Sobrevivente.objects.filter(infectado=False)
+    queryset = Sobrevivente.objects.all()
     serializer_class = SobreviventeSerializer
     pagination_class = PaginacaoCustomizada
     http_method_names = ['get','post','patch','delete','options']
     campos = ['nome','sexo','infectado','agua','alimentacao','medicacao','municao']
+
+
+    def get_queryset_qnt_objects(self):
+        return self.get_queryset().count()
+
+    def get_qnt_infectados_ou_nao(self, flag=True):
+        return self.get_queryset().filter(infectado=flag).count()
 
     def avaliar_partial(self):
         chaves = list(self.request.data.keys())
@@ -42,13 +48,8 @@ class SobreviventeModelViewSet(viewsets.ModelViewSet):
 
         return Response(serializer.data)
 
-    @action(
-        methods=['get',],
-        detail=True,
-        url_path='sobreviventes/denunciar/',
-        url_name=''
-    )
-    def denunciar(self):
+    @action(methods=['get'], detail=True)
+    def denunciar(self, request, *args, **kwargs):
         sobrevivente = self.get_object()
         sobrevivente.denuncias += 1
         if sobrevivente.denuncias == 3:
@@ -56,11 +57,59 @@ class SobreviventeModelViewSet(viewsets.ModelViewSet):
         sobrevivente.save()
         return Response(status=status.HTTP_201_CREATED)
 
+    @action(
+        methods=['get'], detail=False, url_name='relatorio-infectados',
+        url_path='relatorio/infectados'
+    )
+    def porcentagem_infectados(self, request, *args, **kwargs):
+        total = self.get_queryset_qnt_objects()
+        infectados = self.get_qnt_infectados_ou_nao()
+        return Response(
+            {
+                "infectados":f"{((infectados/total)*100):.2f} %"
+            }
+        )
 
-class NegociarItens(APIView):
-    '''
-        Classe responsável por tratar de toda a parte de negociação de itens entre os sobreviventes. A negociação ocorre de tal forma a permitir apenas um item de cada sobrevivente por transação.
-    '''
+    @action(
+        methods=['get'], detail=False, url_name='relatorio-nao-infectados',
+        url_path='relatorio/nao-infectados'
+    )
+    def porecentagem_nao_infectados(self, request, *args, **kwargs):
+        total = self.get_queryset_qnt_objects()
+        nao_infectados = self.get_qnt_infectados_ou_nao(False)
+        return Response(
+            {
+                "nao infectados":f"{((nao_infectados/total)*100):.2f} %"
+            }
+        )
+
+    @action(
+        methods=['get'],
+        url_path='relatorio/medias-dos-inventarios',
+        detail=False,
+        url_name='relatorio-medias-dos-inventarios'
+    )
+    def medias_dos_inventarios(self, request ,*args, **kwargs):
+
+        medias = self.get_queryset().filter(infectado=False).aggregate(
+            agua=Avg('agua'),
+            alimentacao=Avg('alimentacao'),
+            medicacao=Avg('medicacao'),
+            municao=Avg('municao')
+        )
+
+        return Response(
+            {
+                "medias entre sobreviventes": {
+                    'agua': f"{medias.get('agua'):.2f}",
+                    'alimentacao': f"{medias.get('alimentacao'):.2f}",
+                    'medicacao': f"{medias.get('medicacao'):.2f}",
+                    'municao': f"{medias.get('municao'):.2f}"
+                }
+            }
+        )
+
+class NegociarItens(views.APIView):
     tabela_de_precos = {
             'agua':4,
             'alimentacao':3,
@@ -131,71 +180,4 @@ class NegociarItens(APIView):
             "proibido": "Operacao de troca invalida!"
         }, status.HTTP_403_FORBIDDEN)
 
-
-@api_view(['GET'])
-
-
-def numero_de_registros():
-    total = len(Sobrevivente.objects.all())
-    return total
-
-def numero_de_infectados_ou_nao_infectados(flag):
-   total =  len(Sobrevivente.objects.filter(infectado=flag))
-   return total
-
-@api_view(['get'])
-def porcentagem_infectados(request):
-    '''
-        View responsavel por calcular a porcentagem de sobreviventes infectados.
-    '''
-    total = numero_de_registros()
-    infectados = numero_de_infectados_ou_nao_infectados(True)
-    return Response(
-        {
-            "Procentagem de Infectados":f"{((infectados/total)*100):.2f} %"
-        }
-    )
-
-
-@api_view(['get'])
-def porcentagem_nao_infectados(request):
-    '''
-        View responsável por calcular a porcentagem de sobreviventes nao infectados.
-    '''
-    total = numero_de_registros()
-    nao_infectados = numero_de_infectados_ou_nao_infectados(False)
-    return Response(
-        {
-            "Porcentagem de Nao Infectados":f"{((nao_infectados/total)*100):.2f} %"
-        }
-    )
-
-@api_view(['get'])
-def medias_dos_inventarios(request):
-    '''
-        View responsável por calcular a quantidade média de cada tipo de recurso por sobrevivente.
-    '''
-    total = numero_de_infectados_ou_nao_infectados(False)
-    query_set = Sobrevivente.objects.filter(infectado=False)
-
-    agua = 0
-    alimentacao = 0
-    medicacao = 0
-    municao = 0
-
-    for sobrevivente in query_set:
-        agua += sobrevivente.agua
-        alimentacao += sobrevivente.alimentacao
-        medicacao += sobrevivente.medicacao
-        municao += sobrevivente.municao
-    return Response(
-        {
-            "Medias Por Sobrevivente": {
-                'agua': f'{agua/total:.2f}',
-                'alimentacao': f'{alimentacao/total:.2f}',
-                'medicacao': f'{medicacao/total:.2f}',
-                'municao': f'{municao/total:.2f}'
-            }
-        }
-    )
 
