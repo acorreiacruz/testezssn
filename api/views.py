@@ -7,7 +7,7 @@ from rest_framework import viewsets
 from rest_framework import views
 from .pagination import PaginacaoCustomizada
 from rest_framework.decorators import action
-from django.db.models import Sum, Avg
+from django.db.models import Avg
 
 
 class SobreviventeModelViewSet(viewsets.ModelViewSet):

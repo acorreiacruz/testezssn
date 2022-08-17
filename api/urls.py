@@ -14,9 +14,6 @@ api_sobreviventes_urls.register(
     basename='api-sobreviventes'
 )
 
-print(api_sobreviventes_urls.urls)
-
-
 urlpatterns = [
     path(
         'sobreviventes/trocas/<int:id1>/<str:itm1>/<int:qnt1>/<int:id2>/<str:itm2>/<int:qnt2>/',
