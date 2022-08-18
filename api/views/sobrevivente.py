@@ -1,5 +1,7 @@
 from rest_framework import status
 from rest_framework.response import Response
+from rest_framework.permissions import AllowAny
+from ..permission import EhInfectado
 from ..models import Sobrevivente
 from ..serializers import SobreviventeSerializer
 from rest_framework import viewsets
@@ -13,7 +15,7 @@ class SobreviventeModelViewSet(viewsets.ModelViewSet):
     pagination_class = PaginacaoCustomizada
     http_method_names = ['get','post','patch','delete','options']
     campos = ['nome','sexo','infectado','agua','alimentacao','medicacao','municao']
-
+    permission_classes = [AllowAny, EhInfectado]
 
     def avaliar_partial(self):
         chaves = list(self.request.data.keys())
