@@ -1,4 +1,4 @@
-from rest_framework import status
+from ..serializers import SobreviventeSerializer
 from rest_framework.response import Response
 from ..models import Sobrevivente
 from rest_framework import viewsets
@@ -8,7 +8,8 @@ from django.db.models import Avg
 
 class RelatorioViewSet(viewsets.GenericViewSet):
 
-    serializer_class = Sobrevivente.objects.all()
+    queryset = Sobrevivente.objects.all()
+    serializer_class = SobreviventeSerializer
     http_method_names = ['get']
 
     def get_queryset_qnt_objects(self):
