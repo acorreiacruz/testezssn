@@ -11,9 +11,9 @@ class TesteBaseMixin():
             latitude=49.6954,
             longitude=-77.9751,
             agua=10,
-            alimentacao=10,
-            medicacao=10,
-            municao=10
+            alimentacao=15,
+            medicacao=20,
+            municao=25
         ):
         return Sobrevivente.objects.create(
             nome=nome,
@@ -37,3 +37,18 @@ class TesteBaseMixin():
             sobreviventes.append(sobrevivente)
 
         return sobreviventes
+
+    def get_dados_sobrevivente(self):
+        return {
+            'nome':'Sobrevivente',
+            'idade':30,
+            'sexo':'M',
+            'infectado':False,
+            'denuncias':0,
+            'latitude':49.6954,
+            'longitude':-77.9751,
+            'agua':10,
+            'alimentacao':10,
+            'medicacao':10,
+            'municao':10
+        }
