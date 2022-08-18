@@ -2,10 +2,10 @@ from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.response import Response
 from ..models import Sobrevivente
-from rest_framework import generics
+from rest_framework import views
 
 
-class NegociarItens(generics.RetrieveAPIView):
+class NegociarAPIView(views.APIView):
 
     http_method_names = ['get']
     tabela_de_precos = {'agua': 5,'alimentacao': 4,'medicacao': 3,'municao': 2}
