@@ -177,8 +177,8 @@ class TestAPIZssn(APITestCase, TesteBaseMixin):
 
         # Buscando o sobrevivente denunciado
         resposta2 = self.get_resposta('detail', pk=sobrevivente.id)
-        # Verificando se a quantidade de denuncias é 1
-        self.assertEqual(resposta2.data.get('denuncias'), 3)
+        # Verificando se o status code é 403 ao buscar o sobrevivente
+        self.assertEqual(resposta2.status_code, 403)
 
 
 
