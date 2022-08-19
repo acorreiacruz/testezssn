@@ -28,7 +28,10 @@ class SobreviventeModelViewSet(viewsets.ModelViewSet):
         sobrevivente = self.get_object()
 
         if not self.avaliar_partial():
-            return Response(status=status.HTTP_403_FORBIDDEN)
+            return Response(
+                {"detail":"Só é permitido alterar o último local do sobrevivente!"},
+                status=status.HTTP_403_FORBIDDEN
+            )
 
         serializer = self.get_serializer(
             instance=sobrevivente,
@@ -37,7 +40,7 @@ class SobreviventeModelViewSet(viewsets.ModelViewSet):
         )
 
         serializer.is_valid(raise_exception=True)
-        serializer.save()
+        serializer.save(**request.data)
 
         return Response(serializer.data)
 
