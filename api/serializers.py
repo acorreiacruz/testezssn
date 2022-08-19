@@ -20,7 +20,7 @@ class SobreviventeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Sobrevivente
         fields = (
-            'id','nome','idade','sexo','infectado',
+            'id', 'nome', 'idade', 'sexo', 'infectado',
             'denuncias', 'ultimo_local', 'inventario'
         )
 
@@ -40,7 +40,7 @@ class SobreviventeSerializer(serializers.ModelSerializer):
         # Verifica se os dados de último local foram enviados
         try:
             ultimo_local = validated_data.pop('ultimo_local')
-        except:
+        except Exception:
             ultimo_local = None
         else:
             ultimo_local = Local.objects.create(**ultimo_local)
