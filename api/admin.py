@@ -5,7 +5,8 @@ from .models import Sobrevivente
 @admin.register(Sobrevivente)
 class SobreviventeAdmin(admin.ModelAdmin):
     list_display = (
-        'id','nome','idade','sexo','infectado',
-        'denuncias','agua','alimentacao','medicacao',
-        'municao','latitude', 'longitude'
+        'id', 'nome', 'idade', 'sexo', 'infectado',
+        'denuncias', 'ultimo_local', 'inventario'
     )
+
+
