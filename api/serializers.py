@@ -56,4 +56,9 @@ class SobreviventeSerializer(serializers.ModelSerializer):
 
         return sobrevivente
 
-
+    def update(self, instance, validated_data):
+        ultimo_local = instance.ultimo_local
+        ultimo_local.latitude = validated_data.get('latitude', ultimo_local.latitude)
+        ultimo_local.longitude = validated_data.get('longitude', ultimo_local.longitude)
+        instance.save()
+        return instance
