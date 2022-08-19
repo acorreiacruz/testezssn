@@ -37,4 +37,23 @@ class SobreviventeSerializer(serializers.ModelSerializer):
         read_only=False
     )
 
+    def create(self, validated_data):
+        # Verifica se os dados de último local foram enviados
+        try:
+            ultimo_local = validated_data.pop('ultimo_local')
+        except:
+            ultimo_local = None
+        else:
+            ultimo_local = Local.objects.create(**ultimo_local)
+
+        inventario = validated_data.pop('inventario')
+        inventario = Inventario.objects.create(**inventario)
+        sobrevivente = Sobrevivente.objects.create(
+            ultimo_local=ultimo_local,
+            inventario=inventario,
+            **validated_data
+        )
+
+        return sobrevivente
+
 
