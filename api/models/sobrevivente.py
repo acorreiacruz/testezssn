@@ -1,5 +1,8 @@
 from django.db import models
 
+from .inventario import Inventario
+from .local import Local
+
 
 class Sobrevivente(models.Model):
 
@@ -8,6 +11,7 @@ class Sobrevivente(models.Model):
         ('F','Feminino')
     )
 
+<<<<<<< HEAD:api/models.py
     nome = models.CharField(null=False, blank=False, max_length=100)
     idade = models.PositiveIntegerField(null=False, blank=False)
     sexo = models.CharField(choices= SEXO_CHOICES, null=False, blank=False,max_length=1)
@@ -21,7 +25,7 @@ class Sobrevivente(models.Model):
     alimentacao = models.PositiveIntegerField(null=False, default=0)
     medicacao = models.PositiveIntegerField(null=False, default=0)
     municao = models.PositiveIntegerField(null=False, default=0)
+>>>>>>> 408f3490792b1f4db57385473e59ee8f6d1d851f:api/models/sobrevivente.py
 
     def __str__(self) -> str:
         return self.nome
-

@@ -139,5 +139,8 @@ GitHub.sublime-settings
 
 # Meus gitignore
 /utils/*.py
+<<<<<<< HEAD
 api/migrations/
+migrations/
+>>>>>>> 408f3490792b1f4db57385473e59ee8f6d1d851f
 migrations/*.py
