@@ -25,4 +25,16 @@ class SobreviventeSerializer(serializers.ModelSerializer):
             'denuncias', 'ultimo_local', 'inventario'
         )
 
+    ultimo_local = LocalSerializer(
+        required=False,
+        many=False,
+        read_only=False
+    )
+
+    inventario = InventarioSerializer(
+        required=True,
+        many=False,
+        read_only=False
+    )
+
 
