@@ -39,10 +39,6 @@ class TestAPIZssn(APITestCase, TesteBaseMixin):
         resposta = self.get_resposta()
         self.assertEqual(resposta.status_code, 200)
 
-    @skip('Após os métodos de busca serem implementados com o filtro!')
-    def test_se_api_retorna_sobrevivente_infectado_ao_listar(self):
-        ...
-
     @patch('api.pagination.PaginacaoCustomizada.page_size', new=5)
     def test_se_api_retorna_numero_correto_por_pagina_ao_listar(self):
         self.criar_conjunto_de_sobreviventes(10)
