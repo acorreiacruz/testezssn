@@ -8,8 +8,7 @@ class SobreviventeSerializer(serializers.ModelSerializer):
         model = Sobrevivente
         fields = (
             'id','nome','idade','sexo','infectado',
-            'denuncias','latitude', 'longitude',
-            'agua','alimentacao','medicacao','municao'
+            'denuncias', 'ultimo_local', 'inventario'
         )
 
 
