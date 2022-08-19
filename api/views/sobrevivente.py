@@ -13,8 +13,16 @@ class SobreviventeModelViewSet(viewsets.ModelViewSet):
     queryset = Sobrevivente.objects.all()
     serializer_class = SobreviventeSerializer
     pagination_class = PaginacaoCustomizada
-    http_method_names = ['get','post','patch','delete','options']
-    campos = ['nome','sexo','infectado','agua','alimentacao','medicacao','municao']
+    http_method_names = ["get", "post", "patch", "delete", "options"]
+    campos = [
+        "nome",
+        "sexo",
+        "infectado",
+        "agua",
+        "alimentacao",
+        "medicacao",
+        "municao"
+    ]
     permission_classes = [AllowAny, EhInfectado]
 
     def avaliar_partial(self):
@@ -31,9 +39,7 @@ class SobreviventeModelViewSet(viewsets.ModelViewSet):
             return Response(status=status.HTTP_403_FORBIDDEN)
 
         serializer = self.get_serializer(
-            instance=sobrevivente,
-            data=request.data,
-            partial=True
+            instance=sobrevivente, data=request.data, partial=True
         )
 
         serializer.is_valid(raise_exception=True)
@@ -41,7 +47,7 @@ class SobreviventeModelViewSet(viewsets.ModelViewSet):
 
         return Response(serializer.data)
 
-    @action(methods=['get'], detail=True)
+    @action(methods=["get"], detail=True)
     def denunciar(self, request, *args, **kwargs):
         sobrevivente = self.get_object()
         sobrevivente.denuncias += 1

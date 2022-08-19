@@ -1,20 +1,21 @@
 from ..models import Sobrevivente
 
 
-class TesteBaseMixin():
-    def criar_sobrevivente(self,
-            nome='Sobrevivente',
-            idade=30,
-            sexo='M',
-            infectado=False,
-            denuncias=0,
-            latitude=49.6954,
-            longitude=-77.9751,
-            agua=10,
-            alimentacao=15,
-            medicacao=20,
-            municao=25
-        ):
+class TesteBaseMixin:
+    def criar_sobrevivente(
+        self,
+        nome="Sobrevivente",
+        idade=30,
+        sexo="M",
+        infectado=False,
+        denuncias=0,
+        latitude=49.6954,
+        longitude=-77.9751,
+        agua=10,
+        alimentacao=15,
+        medicacao=20,
+        municao=25,
+    ):
         return Sobrevivente.objects.create(
             nome=nome,
             idade=idade,
@@ -26,13 +27,13 @@ class TesteBaseMixin():
             agua=agua,
             alimentacao=alimentacao,
             medicacao=medicacao,
-            municao=municao
+            municao=municao,
         )
 
-    def criar_conjunto_de_sobreviventes(self,quant):
+    def criar_conjunto_de_sobreviventes(self, quant):
         sobreviventes = []
         for i in range(quant):
-            nome = f'survivor{i}'
+            nome = f"survivor{i}"
             sobrevivente = self.criar_sobrevivente(nome=nome)
             sobreviventes.append(sobrevivente)
 
@@ -40,15 +41,15 @@ class TesteBaseMixin():
 
     def get_dados_sobrevivente(self):
         return {
-            'nome':'Sobrevivente',
-            'idade':30,
-            'sexo':'M',
-            'infectado':False,
-            'denuncias':0,
-            'latitude':49.6954,
-            'longitude':-77.9751,
-            'agua':10,
-            'alimentacao':10,
-            'medicacao':10,
-            'municao':10
+            "nome": "Sobrevivente",
+            "idade": 30,
+            "sexo": "M",
+            "infectado": False,
+            "denuncias": 0,
+            "latitude": 49.6954,
+            "longitude": -77.9751,
+            "agua": 10,
+            "alimentacao": 10,
+            "medicacao": 10,
+            "municao": 10,
         }
