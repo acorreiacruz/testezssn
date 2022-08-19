@@ -139,4 +139,5 @@ GitHub.sublime-settings
 
 # Meus gitignore
 /utils/*.py
-migrations/
+api/migrations/
+migrations/*.py
