@@ -29,7 +29,7 @@ class SobreviventeModelViewSet(viewsets.ModelViewSet):
 
         if not self.avaliar_partial():
             return Response(
-                {"detail":"Só é permitido alterar o último local do sobrevivente!"},
+                {"detail":"Só é permitido alterar a latitude e longitude do sobrevivente!"},
                 status=status.HTTP_403_FORBIDDEN
             )
 
