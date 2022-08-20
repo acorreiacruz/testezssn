@@ -39,11 +39,12 @@ class SobreviventeSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         # Verifica se os dados de último local foram enviados
         try:
-            ultimo_local = validated_data.pop('ultimo_local')
+            dados_local = validated_data.pop('ultimo_local')
         except Exception:
-            ultimo_local = None
+            dados_local = {}
+            ultimo_local = Local.objects.create(**dados_local)
         else:
-            ultimo_local = Local.objects.create(**ultimo_local)
+            ultimo_local = Local.objects.create(**dados_local)
 
         inventario = validated_data.pop('inventario')
         inventario = Inventario.objects.create(**inventario)
@@ -59,5 +60,5 @@ class SobreviventeSerializer(serializers.ModelSerializer):
         ultimo_local = instance.ultimo_local
         ultimo_local.latitude = validated_data.get('latitude', ultimo_local.latitude)
         ultimo_local.longitude = validated_data.get('longitude', ultimo_local.longitude)
-        instance.save()
+        ultimo_local.save()
         return instance
