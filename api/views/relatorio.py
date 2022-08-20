@@ -54,10 +54,10 @@ class RelatorioViewSet(viewsets.GenericViewSet):
     def medias_dos_inventarios(self, request ,*args, **kwargs):
 
         medias = self.get_queryset().filter(infectado=False).aggregate(
-            agua=Avg('agua'),
-            alimentacao=Avg('alimentacao'),
-            medicacao=Avg('medicacao'),
-            municao=Avg('municao')
+            agua=Avg('inventario__agua'),
+            alimentacao=Avg('inventario__alimentacao'),
+            medicacao=Avg('inventario__medicacao'),
+            municao=Avg('inventario__municao')
         )
 
         return Response(
