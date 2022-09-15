@@ -59,18 +59,18 @@ class NegociarAPIView(views.APIView):
             qnt2
         ):
 
-            valor_inicial = getattr(sobrvt1, itm1)
-            setattr(sobrvt1, itm1, valor_inicial - qnt1)
-            valor_inicial = getattr(sobrvt1, itm2)
-            setattr(sobrvt1, itm2, valor_inicial + qnt2)
+            valor_inicial = getattr(sobrvt1.inventario, itm1)
+            setattr(sobrvt1.inventario, itm1, valor_inicial - qnt1)
+            valor_inicial = getattr(sobrvt1.inventario, itm2)
+            setattr(sobrvt1.inventario, itm2, valor_inicial + qnt2)
 
-            valor_inicial = getattr(sobrvt2, itm2)
-            setattr(sobrvt2, itm2, valor_inicial - qnt2)
-            valor_inicial = getattr(sobrvt2, itm1)
-            setattr(sobrvt2, itm1, valor_inicial + qnt1)
+            valor_inicial = getattr(sobrvt2.inventario, itm2)
+            setattr(sobrvt2.inventario, itm2, valor_inicial - qnt2)
+            valor_inicial = getattr(sobrvt2.inventario, itm1)
+            setattr(sobrvt2.inventario, itm1, valor_inicial + qnt1)
 
-            sobrvt1.save()
-            sobrvt2.save()
+            sobrvt1.inventario.save()
+            sobrvt2.inventario.save()
 
             return Response(status.HTTP_202_ACCEPTED)
 
