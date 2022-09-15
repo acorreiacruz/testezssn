@@ -1,8 +1,8 @@
-from unittest import skip
 from unittest.mock import patch
 from django.urls import reverse
 from rest_framework.test import APITestCase
 from .test_base_mixin import TesteBaseMixin
+from json import dumps
 
 
 class TestAPIZssn(APITestCase, TesteBaseMixin):
@@ -11,7 +11,7 @@ class TestAPIZssn(APITestCase, TesteBaseMixin):
         url = reverse(f'api:api-sobreviventes-{action}', kwargs={**kwargs})
         return url
 
-    def get_resposta(self, action='list', method='get', data=None, **kwargs):
+    def get_resposta(self, action='list', method='get', content_type='', data=None, **kwargs):
         if method == 'get':
             resposta = self.client.get(
                 self.get_api_url(action=action, **kwargs),
@@ -20,7 +20,8 @@ class TestAPIZssn(APITestCase, TesteBaseMixin):
         if method == 'post':
             resposta = self.client.post(
                 self.get_api_url(action=action, **kwargs),
-                data=data
+                data=data,
+                content_type=content_type
             )
 
         if method == 'delete':
@@ -48,7 +49,12 @@ class TestAPIZssn(APITestCase, TesteBaseMixin):
 
     def test_se_api_cria_sobrevivente(self):
         dados = self.get_dados_sobrevivente()
-        resposta = self.get_resposta(method='post', data=dados)
+        json = dumps(dados)
+        resposta = self.get_resposta(
+            method='post',
+            data=json,
+            content_type='application/json'
+        )
         data = resposta.data
         self.assertEqual(data.get('nome'), dados.get('nome'))
         self.assertEqual(resposta.status_code, 201)
@@ -83,7 +89,7 @@ class TestAPIZssn(APITestCase, TesteBaseMixin):
 			"latitude": -13.2719,
 			"longitude": -48.2852,
         }
-        sobrevivente = self.criar_sobrevivente(**local)
+        sobrevivente = self.criar_sobrevivente(dados_ultimo_local=local)
 
         resposta1 = self.get_resposta(
             'detail','patch',
@@ -99,15 +105,15 @@ class TestAPIZssn(APITestCase, TesteBaseMixin):
         self.assertEqual(resposta1.data.get('latitude'), resposta2.data.get('latitude'))
         self.assertEqual(resposta1.data.get('longitude'), resposta2.data.get('longitude'))
 
-    def test_se_api_retorna_status_code_404_ao_tentar_atualizar_inventario(self):
+    def test_se_api_negocia_itens(self):
         dados_inventario = {
             'agua': 23, # 5 pontos
             'alimentacao': 12, # 4 pontos
             'medicacao': 5,
             'municao': 10
         }
-        sobrevivente1 = self.criar_sobrevivente(**dados_inventario)
-        sobrevivente2 = self.criar_sobrevivente(**dados_inventario)
+        sobrevivente1 = self.criar_sobrevivente(dados_inventario=dados_inventario)
+        sobrevivente2 = self.criar_sobrevivente(dados_inventario=dados_inventario)
 
         kwargs = {
             'id1': sobrevivente1.id,
@@ -156,10 +162,10 @@ class TestAPIZssn(APITestCase, TesteBaseMixin):
         sobreviventes = self.criar_conjunto_de_sobreviventes(25)
         resposta = self.get_resposta('relatorio-medias-dos-inventarios')
         medias = resposta.data.get('medias dos inventarios')
-        self.assertEqual(medias.get('agua'), "10.00")
-        self.assertEqual(medias.get('alimentacao'), "15.00")
-        self.assertEqual(medias.get('medicacao'), "20.00")
-        self.assertEqual(medias.get('municao'), "25.00")
+        self.assertEqual(medias.get('agua'), "12.00")
+        self.assertEqual(medias.get('alimentacao'), "5.00")
+        self.assertEqual(medias.get('medicacao'), "6.00")
+        self.assertEqual(medias.get('municao'), "15.00")
 
     def test_se_api_realiza_denuncia_de_infectado(self):
         # Criando um sobrevivente com 0 denúncias
@@ -174,7 +180,10 @@ class TestAPIZssn(APITestCase, TesteBaseMixin):
         # Buscando o sobrevivente denunciado
         resposta2 = self.get_resposta('detail', pk=sobrevivente.id)
         # Verificando se a quantidade de denuncias é 1
-        self.assertEqual(resposta2.data.get('denuncias'), 3)
+        self.assertEqual(
+            resposta2.data.get('detail')[:],
+            "Indivíduo infectado!"
+        )
 
 
 
