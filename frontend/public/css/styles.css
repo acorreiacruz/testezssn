@@ -1,0 +1,342 @@
+*{
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+}
+
+.header-container{
+    display: flex;
+    justify-content: space-between;
+    height: 60px;
+    background-color: rgb(0, 0, 0);
+    padding: 0px 6px;
+}
+
+.header-container h1 {
+    margin-top: 10px;
+    font-size: 32px;
+    color: white;
+    height: 100%;
+    width: fit-content;
+}
+
+.menu-container{
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.menu-container a {
+    display: block;
+    width: fit-content;
+    height: 100%;
+    text-decoration: none;
+    padding: 13px 8px;
+    font-size: 25px;
+    color: white;
+    cursor: pointer;
+}
+
+.menu-container a:hover{
+    background-color: rgb(36, 36, 36);
+}
+
+.menu-container a:current{
+    background-color: rgb(36, 36, 36);
+}
+
+.menu-container a:active{
+    background-color: rgb(36, 36, 36);
+}
+
+.main-container{
+    padding: 16px 80px;
+}
+
+.main-container .title-container{
+    margin: 0px auto;
+    width: fit-content;
+    height: 100%;
+    margin-bottom: 10px;
+}
+
+.button{
+    width: fit-content;
+    height: fit-content;
+    margin-bottom: 10px;
+}
+
+.button a {
+    display: block;
+    width: fit-content;
+    height: 100%;
+    padding: 5px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 20px;
+    background-color: rgb(59, 59, 59);
+    color: white;
+}
+
+.button a:hover{
+    background-color: black;
+    box-shadow: 1px 1px black;
+}
+
+.title{
+    font-size: 30px;
+    padding: 5px 15px;
+}
+
+.container{
+    padding: 10px;
+    border-radius: 5px;
+}
+
+table{
+    width: 100%;
+}
+
+table, tr, td {
+    border-bottom: 1px solid rgb(185, 185, 185);
+    border-collapse: collapse;
+    padding: 10px;
+    text-align: center;
+    font-size: 20px;
+}
+
+tr:nth-child(even){
+    background-color: rgb(236, 236, 236);
+}
+
+.itens-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.item{
+    width: fit-content;
+    height: fit-content;
+    padding: 10px 20px;
+    margin-right: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.infectado{
+    background-color: grey;
+}
+
+
+.local{
+    background-color: rgba(0, 0, 255, 0.788);
+}
+
+.local:hover{
+    background-color: blue;
+}
+
+.inventario-btn{
+    background-color: rgb(0, 0, 0, 0.788);
+}
+
+.inventario-btn:hover{
+    background-color: rgb(0, 0, 0);
+}
+
+.denunciar{
+    background-color: rgb(255, 0, 0, 0.788);
+}
+
+.denunciar:hover{
+    background-color: rgb(255, 0, 0);
+}
+
+
+.item:last-child{
+    margin-right: none;
+}
+
+.fa-location-dot{
+    color: rgb(255, 255, 255);
+}
+
+.fa-triangle-exclamation{
+    color: rgb(255, 255, 255);
+}
+
+.fa-briefcase{
+    color: rgb(255, 255, 255);
+}
+
+.fa-circle-xmark{
+    color: blue;
+    font-size: 30px;
+}
+
+.fa-circle-check{
+    color: red;
+    font-size: 30px;
+}
+
+.fa-person-dress, .fa-person, .fa-map-location-dot{
+    font-size: 30px;
+}
+
+.pagination-container{
+    padding: 10px;
+}
+
+.pagination{
+    width: fit-content;
+    height: 100%;
+    margin: 5px auto;
+    font-size: 25px;
+}
+
+.prohibited{
+    cursor: auto;
+    background-color: grey;
+}
+
+.form-main-container{
+    padding: 10px;
+}
+
+.form-container{
+    display: grid;
+    grid-template-columns: auto auto;
+    row-gap: 10px;
+    column-gap: 10px;
+}
+
+.input-container{
+    width: 100%;
+}
+
+.input-container label{
+    font-size: 25px;
+}
+
+.input-container input, select{
+    width: 100%;
+    font-size: 25px;
+    border-radius: 5px;
+    border: 0.5px solid black;
+    padding: 5px;
+}
+
+.button-container{
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+}
+
+.button-container button{
+    padding: 5px;
+    border-radius: 5px;
+    border: none;
+    margin-right: 15px;
+    cursor: pointer;
+}
+
+.btn-save, .btn-cancel, .btn{
+    width: fit-content;
+    height: fit-content;
+}
+
+.btn-save button{
+    font-size: 25px;
+    background-color: rgba(0, 0, 255, 0.705);
+    color: white;
+}
+
+.btn-save button:hover{
+    background-color: rgb(0, 0, 255);
+}
+
+.btn-cancel button{
+    background-color: rgb(255, 0, 0,  0.705);
+}
+
+.btn-cancel button:hover{
+    background-color: rgb(255, 0, 0);
+}
+
+.btn-cancel button a {
+    display: block;
+    width: fit-content;
+    height: fit-content;
+    text-decoration: none;
+    font-size: 25px;
+    color: white;
+}
+
+.btn button{
+    padding: 5px;
+    font-size: 25px;
+}
+
+.inventarios-container{
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+}
+
+.inventario{
+    background-color: none;
+    border-radius: 5px;
+    width: 100%;
+    height: 100%;
+    margin-right: 10px;
+}
+
+.inventario-title{
+    text-align: center;
+    width: 100%;
+    font-size: 24px;
+    margin: 5px 0px;
+}
+
+.inventario:last-child{
+    margin-right: 0px;
+}
+
+.grid-inventario{
+    background-color: rgba(0, 0, 0, 0.685);
+    display: grid;
+    justify-content: space-between;
+    row-gap: 10px;
+    align-items: center;
+    padding: 10px 10px;
+    border-radius: 5px;
+    grid-template-columns: 49% 49%;
+}
+
+.inventario-item-container{
+    width: 100%;
+}
+
+.input-container button{
+    padding: 5px;
+    border-radius: 5px;
+    width: 100%;
+    color: white;
+    font-size: 20px;
+    background-color: blue;
+    border: none;
+}
+
+.inventario-item{
+    text-align: center;
+    background-color: white;
+    border-radius: 5px;
+    padding: 5px;
+    max-width: 100%;
+    font-size: 23px;
+    color: rgb(0, 0, 0);
+}
