@@ -86,7 +86,8 @@ export default {
             const url = "http://127.0.0.1:8000/api/sobreviventes/";
             const req = await fetch(url)
             const dados = await req.json();
-            this.sobreviventes = dados.results;
+            console.log(dados);
+            this.sobreviventes = dados;
         },
         async denunciarSobrevivente(id){
             const url = `http://127.0.0.1:8000/api/sobreviventes/${id}/denunciar/`;

@@ -5,7 +5,6 @@ from ..permission import EhInfectado
 from ..models import Sobrevivente
 from ..serializers import SobreviventeSerializer
 from rest_framework import viewsets
-from ..pagination import PaginacaoCustomizada
 from rest_framework.decorators import action
 
 

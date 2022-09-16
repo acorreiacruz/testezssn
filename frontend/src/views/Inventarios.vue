@@ -41,7 +41,7 @@ export default {
             const url = "http://127.0.0.1:8000/api/sobreviventes/";
             const req = await fetch(url);
             const dados = await req.json();
-            this.inventarios = dados.results;
+            this.inventarios = dados;
         }
     },
     mounted(){
