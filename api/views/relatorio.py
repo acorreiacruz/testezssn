@@ -62,7 +62,7 @@ class RelatorioViewSet(viewsets.GenericViewSet):
 
         return Response(
             {
-                "medias dos inventarios": {
+                "medias_dos_inventarios": {
                     'agua': f"{medias.get('agua'):.2f}",
                     'alimentacao': f"{medias.get('alimentacao'):.2f}",
                     'medicacao': f"{medias.get('medicacao'):.2f}",
