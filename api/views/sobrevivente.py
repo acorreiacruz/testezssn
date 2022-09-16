@@ -12,17 +12,8 @@ from rest_framework.decorators import action
 class SobreviventeModelViewSet(viewsets.ModelViewSet):
     queryset = Sobrevivente.objects.all()
     serializer_class = SobreviventeSerializer
-    pagination_class = PaginacaoCustomizada
-    http_method_names = ["get", "post", "patch", "delete", "options"]
-    campos = [
-        "nome",
-        "sexo",
-        "infectado",
-        "agua",
-        "alimentacao",
-        "medicacao",
-        "municao"
-    ]
+    http_method_names = ['get','post','patch','delete','options']
+    campos = ['nome','sexo','infectado','agua','alimentacao','medicacao','municao']
     permission_classes = [AllowAny, EhInfectado]
 
     def avaliar_partial(self):
@@ -36,18 +27,23 @@ class SobreviventeModelViewSet(viewsets.ModelViewSet):
         sobrevivente = self.get_object()
 
         if not self.avaliar_partial():
-            return Response(status=status.HTTP_403_FORBIDDEN)
+            return Response(
+                {"detail":"Só é permitido alterar a latitude e longitude do sobrevivente!"},
+                status=status.HTTP_403_FORBIDDEN
+            )
 
         serializer = self.get_serializer(
-            instance=sobrevivente, data=request.data, partial=True
+            instance=sobrevivente,
+            data=request.data,
+            partial=True
         )
 
         serializer.is_valid(raise_exception=True)
-        serializer.save()
+        serializer.save(**request.data)
 
         return Response(serializer.data)
 
-    @action(methods=["get"], detail=True)
+    @action(methods=['get'], detail=True)
     def denunciar(self, request, *args, **kwargs):
         sobrevivente = self.get_object()
         sobrevivente.denuncias += 1

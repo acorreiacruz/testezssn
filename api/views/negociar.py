@@ -7,34 +7,33 @@ from rest_framework import views
 
 class NegociarAPIView(views.APIView):
 
-    http_method_names = ["get"]
-    tabela_de_precos = {
-        "agua": 5,
-        "alimentacao": 4,
-        "medicacao": 3,
-        "municao": 2
-    }
+    http_method_names = ['get']
+    tabela_de_precos = {'agua': 5,'alimentacao': 4,'medicacao': 3,'municao': 2}
+
 
     def get_sobrevivente(self, id):
-        sobrevivente = get_object_or_404(Sobrevivente, pk=id)
+        sobrevivente = get_object_or_404(
+            Sobrevivente,
+            pk=id
+        )
         return sobrevivente
 
     def se_infectado(self, sobrevivente):
         return True if sobrevivente.infectado else False
 
-    def validar_troca(self, sobrvt1, itm1, qnt1, sobrvt2, itm2, qnt2):
-        if qnt1 > getattr(sobrvt1, itm1) or qnt2 > getattr(sobrvt2, itm2):
+    def validar_troca(
+        self, invent1, itm1, qnt1, invent2, itm2, qnt2
+    ):
+        if qnt1 > getattr(invent1, itm1) or qnt2 > getattr(invent2, itm2):
             return False
 
         if qnt1 < 0 or qnt2 < 0:
             return False
 
-        if (getattr(sobrvt1, itm1) == 0 and qnt1 > 0) or (
-            getattr(sobrvt2, itm2) == 0 and qnt2 > 0
-        ):
+        if (getattr(invent1, itm1) == 0 and qnt1 > 0) or (getattr(invent2, itm2) == 0 and qnt2 > 0):
             return False
 
-        if self.tabela_de_precos[itm1] * qnt1 != self.tabela_de_precos[itm2] * qnt2: # noqa
+        if self.tabela_de_precos[itm1] * qnt1 != self.tabela_de_precos[itm2] * qnt2:
             return False
 
         return True
@@ -45,28 +44,39 @@ class NegociarAPIView(views.APIView):
 
         if self.se_infectado(sobrvt1) or self.se_infectado(sobrvt2):
             return Response(
-                {"detail": "Infectados nao podem realizar trocas!"},
-                status.HTTP_403_FORBIDDEN,
+                {
+                    "detail": "Infectados nao podem realizar trocas!"
+                },
+                status.HTTP_403_FORBIDDEN
             )
 
-        if self.validar_troca(sobrvt1, itm1, qnt1, sobrvt2, itm2, qnt2):
+        if self.validar_troca(
+            sobrvt1.inventario,
+            itm1,
+            qnt1,
+            sobrvt2.inventario,
+            itm2,
+            qnt2
+        ):
 
-            valor_inicial = getattr(sobrvt1, itm1)
-            setattr(sobrvt1, itm1, valor_inicial - qnt1)
-            valor_inicial = getattr(sobrvt1, itm2)
-            setattr(sobrvt1, itm2, valor_inicial + qnt2)
+            valor_inicial = getattr(sobrvt1.inventario, itm1)
+            setattr(sobrvt1.inventario, itm1, valor_inicial - qnt1)
+            valor_inicial = getattr(sobrvt1.inventario, itm2)
+            setattr(sobrvt1.inventario, itm2, valor_inicial + qnt2)
 
-            valor_inicial = getattr(sobrvt2, itm2)
-            setattr(sobrvt2, itm2, valor_inicial - qnt2)
-            valor_inicial = getattr(sobrvt2, itm1)
-            setattr(sobrvt2, itm1, valor_inicial + qnt1)
+            valor_inicial = getattr(sobrvt2.inventario, itm2)
+            setattr(sobrvt2.inventario, itm2, valor_inicial - qnt2)
+            valor_inicial = getattr(sobrvt2.inventario, itm1)
+            setattr(sobrvt2.inventario, itm1, valor_inicial + qnt1)
 
-            sobrvt1.save()
-            sobrvt2.save()
+            sobrvt1.inventario.save()
+            sobrvt2.inventario.save()
 
             return Response(status.HTTP_202_ACCEPTED)
 
         return Response(
-            data={"detail": "Operação de troca inválida!"},
-            status=status.HTTP_403_FORBIDDEN,
+            data={
+                "detail": "Operação de troca inválida!"
+            },
+            status=status.HTTP_403_FORBIDDEN
         )
