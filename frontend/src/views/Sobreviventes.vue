@@ -82,8 +82,8 @@ export default {
         }
     },
     methods:{
-        async getSobreviventes(page=1){
-            const url = "http://127.0.0.1:8000/api/sobreviventes/?page=" + page;
+        async getSobreviventes(){
+            const url = "http://127.0.0.1:8000/api/sobreviventes/";
             const req = await fetch(url)
             const dados = await req.json();
             this.sobreviventes = dados.results;

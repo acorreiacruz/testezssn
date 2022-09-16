@@ -37,8 +37,8 @@ export default {
         }
     },
     methods:{
-        async getInventarios(page=8){
-            const url = "http://127.0.0.1:8000/api/sobreviventes/?page=" + page;
+        async getInventarios(){
+            const url = "http://127.0.0.1:8000/api/sobreviventes/";
             const req = await fetch(url);
             const dados = await req.json();
             this.inventarios = dados.results;
