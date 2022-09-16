@@ -2,6 +2,7 @@
     <div class="main-container">
         <div class="container">
             <Title :titulo="titulo" :fontawesome="fontawesome" />
+            <Mensagem :msg="msg"/>
             <div class="button-container">
                 <div class="button">
                     <router-link to="/sobreviventes/adicionar">
@@ -65,12 +66,15 @@
 <script>
 import Title from "../components/Title.vue";
 import TableHead from "../components/TableHead.vue";
+import Mensagem from "../components/Mensagem.vue";
 export default {
     name:"Sobreviventes",
     components:{
-        Title,
-        TableHead,
-    },
+    Title,
+    TableHead,
+    Mensagem,
+    Mensagem
+},
     data(){
         return{
             titulo:"Sobreviventes",
@@ -78,7 +82,8 @@ export default {
             sobreviventes: null,
             cssClassLocal:"item local",
             cssClassInventario: "item inventario",
-            cssClassDenunciar: "item "
+            cssClassDenunciar: "item ",
+            msg:null,
         }
     },
     methods:{
@@ -91,6 +96,9 @@ export default {
         async denunciarSobrevivente(id){
             const url = `http://127.0.0.1:8000/api/sobreviventes/${id}/denunciar/`;
             const res = await fetch(url);
+            if(res == 201){
+                this.msg = "Denúncia de infectado realizada com sucesso!";
+            }
         },
         verificaPrompt(sobreviventeId){
             let id = prompt("Informe o id do sobrevivente a ser denunciado!");

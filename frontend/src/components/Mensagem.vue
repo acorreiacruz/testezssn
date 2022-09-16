@@ -1,8 +1,6 @@
 <template>
     <div class="mensagem-container">
-        <p :class="classe">
-            {{msg}}
-        </p>
+        {{msg}}
     </div>
 </template>
 
@@ -11,7 +9,6 @@ export default {
     name:"Mensagem",
     props:{
         msg:String,
-        classe:String
     }
 }
 </script>
