@@ -41,7 +41,7 @@ class RelatorioViewSet(viewsets.GenericViewSet):
         nao_infectados = self.get_qnt_infectados_ou_nao(False)
         return Response(
             {
-                "nao infectados":f"{((nao_infectados/total)*100):.2f} %"
+                "nao_infectados":f"{((nao_infectados/total)*100):.2f} %"
             }
         )
 
