@@ -17,7 +17,6 @@
                         <div v-show="flagInputs" class="input-container">
                             <label for="item1">Item do Sobrevivente 1:</label>
                             <select name="item1" id="item1" v-model="item1" @change="limparInputs(true),setLimitadores(),limparPontos(true)">
-                                <option value="">Selecione um item</option>
                                 <option value="agua">Água</option>
                                 <option value="alimentacao">Alimentação</option>
                                 <option value="medicacao">Medicação</option>
@@ -27,7 +26,6 @@
                         <div v-show="flagInputs" class="input-container">
                             <label for="item2">Item do Sobrevivente 2:</label>
                             <select name="item2" id="item2" v-model="item2" @change="limparInputs(false),setLimitadores(),limparPontos(false)">
-                                <option value="">Selecione um item</option>
                                 <option value="agua">Água</option>
                                 <option value="alimentacao">Alimentação</option>
                                 <option value="medicacao">Medicação</option>
@@ -57,7 +55,7 @@
                             <button>Pontuação Total 2 = {{pontos2}}</button>
                         </div>
                     </div>
-                    <div class="inventarios-container">
+                    <div v-show="flagInputs" class="inventarios-container">
                             <div class="inventario" v-for="sobrevivente in sobreviventes" :key="sobrevivente.id">
                                 <p class="inventario-title">
                                     Inventário do Sobrevivente de Id {{sobrevivente.id}}
@@ -106,12 +104,11 @@ export default {
             fontawesome: "fa-solid fa-cart-shopping",
             btnTexto: "Buscar Inventários",
             btnImg:"fa-sharp fa-solid fa-magnifying-glass",
-            contador:0,
             flagBtn: false,
-            id1:13,
+            id1:null,
             item1:null,
             qnt1:0,
-            id2:14,
+            id2:null,
             item2:null,
             qnt2:0,
             sobreviventes: null,
@@ -177,12 +174,36 @@ export default {
             this.msg = msg;
             this.flagMsg = true;
         },
+        resetarBtn(){
+            this.btnTexto = "Buscar Inventários";
+            this.btnImg = "fa-sharp fa-solid fa-magnifying-glass";
+            this.flagBtn = false;
+        },
+        resetarForm(){
+            this.id1 = null;
+            this.item1 = null;
+            this.qnt1 = 0;
+            this.id2 = null;
+            this.item2 = null;
+            this.qnt2 = 0;
+            this.flagInputs = false;
+            this.pontos1 = null;
+            this.pontos2 = null;
+            this.sobreviventes = null;
+        },
+        resetar(){
+            this.resetarBtn();
+            this.resetarForm();
+        },
         async realizarTroca(){
             if(this.flagBtn && this.verificaPontos()){
                 const url = this.baseUrl + `trocas/${this.id1}/${this.item1}/${this.qnt1}/${this.id2}/${this.item2}/${this.qnt2}/`;
                 const res = await this.getResponse(url);
+                this.resetar();
                 this.showMsg("Operação realizada com sucesso!");
-                this.limparInputs();
+            }
+            if(this.flagBtn || this.flagInputs){
+                this.showMsg("Operação inválida, pontuações diferentes!");
             }
         },
         limparInputs(flag){
