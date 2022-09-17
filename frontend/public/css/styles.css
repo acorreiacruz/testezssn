@@ -1,7 +1,12 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Questrial&display=swap');
+
+
 *{
     padding: 0px;
     margin: 0px;
     box-sizing: border-box;
+    font-family: 'Questrial', sans-serif;
 }
 
 .header-container{
@@ -339,4 +344,21 @@ tr:nth-child(even){
     max-width: 100%;
     font-size: 23px;
     color: rgb(0, 0, 0);
+}
+
+.mensagem-container{
+    width: 100%;
+    height: 100%;
+    padding: 5px 0px;
+}
+
+.mensagem-container p {
+    border-radius: 5px;
+    width: fit-content;
+    height: fit-content;
+    font-size: 20px;
+    margin: 0px auto;
+    padding: 5px 10px;
+    border: 4px solid rgb(0, 255, 0);
+    background-color: rgba(0, 255, 0, 0.349);
 }
