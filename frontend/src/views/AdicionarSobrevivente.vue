@@ -7,11 +7,11 @@
                     <div class="form-container">
                         <div class="input-container">
                             <label for="nome">Nome:</label>
-                            <input type="text" id="nome" v-model="nome">
+                            <input type="text" id="nome" v-model="nome" required>
                         </div>
                         <div class="input-container">
                             <label for="idade">Idade:</label>
-                            <input type="number" id="idade" min="0" v-model="idade">
+                            <input type="number" id="idade" min="0" v-model="idade" required>
                         </div>
                         <div class="input-container">
                             <label for="latitude">Latitude:</label>
@@ -31,11 +31,11 @@
                         </div>
                         <div class="input-container">
                             <label for="agua">Água:</label>
-                            <input type="number" min="0" id="agua" v-model="agua">
+                            <input type="number" min="0" id="agua" v-model="agua" required>
                         </div>
                         <div class="input-container">
                             <label for="alimentacao">Alimentação:</label>
-                            <input type="number" min="0" id="alimentacao" v-model="alimentacao">
+                            <input type="number" min="0" id="alimentacao" v-model="alimentacao" required>
                         </div>
                         <div class="input-container">
                             <label for="medicacao">Medicação:</label>
@@ -43,7 +43,7 @@
                         </div>
                         <div class="input-container">
                             <label for="municao">Munição:</label>
-                            <input type="number" min="0" id="municao" v-model="municao">
+                            <input type="number" min="0" id="municao" v-model="municao" required>
                         </div>
                     </div>
                     <div class="button-container">
@@ -84,7 +84,7 @@ export default {
             agua:null,
             alimentacao:null,
             medicacao:null,
-            municao:null
+            municao:null,
         }
     },
     methods:{
@@ -105,6 +105,17 @@ export default {
                 }
             }
         },
+        limparCampos(){
+            this.nome = null;
+            this.idade = null;
+            this.latitude = null;
+            this.longitude = null;
+            this.sexo = null;
+            this.agua = null;
+            this.alimentacao = null;
+            this.medicacao = null;
+            this.municao = null;
+        },
         async criarSobrevivente(e){
             e.preventDefault();
 
@@ -121,7 +132,7 @@ export default {
             );
 
             const res = await req.json();
-            this.$router.push('/');
+            this.limparCampos();
         },
     }
 }
