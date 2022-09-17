@@ -2,7 +2,6 @@
     <div class="main-container">
         <div class="container">
             <Title :titulo="titulo" :fontawesome="fontawesome" />
-            <Mensagem :msg="msg"/>
             <div class="button-container">
                 <div class="button">
                     <router-link to="/sobreviventes/adicionar">
@@ -29,17 +28,28 @@
                             </td>
                             <td>
                                 <span v-if="sobrevivente.infectado">
-                                    <i class="fa-solid fa-circle-check"></i>
+                                    <i class="fa-solid fa-skull-crossbones"></i>
                                 </span>
                                 <span v-else>
-                                    <i class="fa-sharp fa-solid fa-circle-xmark"></i>
+                                    <i class="fa-solid fa-shield"></i>
                                 </span>
                             </td>
                             <td>
                                 {{sobrevivente.denuncias}}
                             </td>
                             <td>
-                                <div class="itens-container">
+                                <div v-if="sobrevivente.infectado" class="itens-container">
+                                    <div class="infectado">
+                                        <i class="fa-solid fa-location-dot"></i>
+                                    </div>
+                                    <div class="infectado">
+                                        <i class="fa-solid fa-briefcase"></i>
+                                    </div>
+                                    <div class="infectado">
+                                        <i class="fa-solid fa-triangle-exclamation"></i>
+                                    </div>
+                                </div>
+                                <div v-else class="itens-container">
                                     <router-link  class="item local" :to="{
                                         name:'alterar-local',
                                         query:{id:sobrevivente.id}
@@ -49,7 +59,6 @@
                                     <div class="item inventario-btn" @click="getInventario(sobrevivente)">
                                         <i class="fa-solid fa-briefcase"></i>
                                     </div>
-
                                     <div class="item denunciar" @click="popUp(sobrevivente)">
                                         <i class="fa-solid fa-triangle-exclamation"></i>
                                     </div>
