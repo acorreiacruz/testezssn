@@ -263,6 +263,10 @@ tr:nth-child(even){
     background-color: rgb(0, 0, 255);
 }
 
+.btn-save button:active {
+    border: 1px solid black;
+}
+
 .btn-reset button{
     font-size: 20px;
     background-color: rgba(255, 0, 0, 0.705);
@@ -274,8 +278,13 @@ tr:nth-child(even){
     background-color: rgb(255, 0, 0);
 }
 
+.btn-save button:reset {
+    border: 1px solid black;
+}
+
 .btn-cancel button{
     background-color: rgb(255, 0, 0,  0.705);
+    padding: 5px 15px;
 }
 
 .btn-cancel button:hover{
@@ -287,7 +296,7 @@ tr:nth-child(even){
     width: fit-content;
     height: fit-content;
     text-decoration: none;
-    font-size: 25px;
+    font-size: 20px;
     color: white;
 }
 
