@@ -82,6 +82,11 @@
                                 <i :class="btnImg"></i> {{btnTexto}}
                             </button>
                         </div>
+                        <div v-show="flagInputs" class="btn-reset">
+                            <button type="button" @click="resetar">
+                                <i class="fa-solid fa-arrows-rotate"></i> Resetar
+                            </button>
+                        </div>
                     </div>
                 </form>
             </div>
