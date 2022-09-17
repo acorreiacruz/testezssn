@@ -131,7 +131,18 @@ tr:nth-child(even){
 }
 
 .infectado{
-    background-color: grey;
+    background-color: rgb(167, 167, 167);
+    cursor: auto;
+    width: fit-content;
+    height: fit-content;
+    padding: 10px 20px;
+    margin-right: 5px;
+    border-radius: 5px;
+    cursor: auto;
+}
+
+.infectado i {
+    color: rgb(110, 110, 110);
 }
 
 
@@ -176,13 +187,13 @@ tr:nth-child(even){
     color: rgb(255, 255, 255);
 }
 
-.fa-circle-xmark{
-    color: blue;
+.fa-shield{
+    color: rgb(15, 175, 0);
     font-size: 30px;
 }
 
-.fa-circle-check{
-    color: red;
+.fa-skull-crossbones{
+    color: rgb(255, 0, 0);
     font-size: 30px;
 }
 
