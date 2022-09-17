@@ -336,6 +336,10 @@ tr:nth-child(even){
     border: none;
 }
 
+.input-container .btn-result{
+    width: 100%;
+}
+
 .inventario-item{
     text-align: center;
     background-color: white;
@@ -361,4 +365,24 @@ tr:nth-child(even){
     padding: 5px 10px;
     border: 4px solid rgb(0, 255, 0);
     background-color: rgba(0, 255, 0, 0.349);
+}
+
+.flex{
+    display: flex;
+    flex-direction: row;
+}
+
+.input-container .btn-add,.input-container .btn-remove {
+    background-color: black;
+    padding: 5px;
+    width: 120px;
+    cursor: pointer;
+    color: white
+}
+
+.btn-add{
+    margin-right: 10px;
+}
+.btn-remove{
+    margin-right: 10px;
 }
