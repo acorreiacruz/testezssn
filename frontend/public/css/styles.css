@@ -418,3 +418,8 @@ tr:nth-child(even){
 .btn-remove{
     margin-right: 10px;
 }
+
+.input-container .sexo{
+    width: fit-content;
+    margin-left: 40px;
+}

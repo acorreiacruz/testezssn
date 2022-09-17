@@ -2,6 +2,7 @@
     <div class="main-container">
         <div class="container">
             <Title :titulo="titulo" :fontawesome="fontawesome"/>
+            <Mensagem :msg="msg" v-show="flagMsg"/>
             <div class="form-main-container">
                 <form method="post" @submit="criarSobrevivente">
                     <div class="form-container">
@@ -23,11 +24,11 @@
                         </div>
                         <div class="input-container">
                             <label for="masculino">Masculino:</label>
-                            <input type="radio" id="masculino" value="M" v-model="sexo">
+                            <input class="sexo" type="radio" id="masculino" value="M" v-model="sexo">
                         </div>
                         <div class="input-container">
                             <label for="feminino">Feminino:</label>
-                            <input type="radio" id="feminino" value="F" v-model="sexo">
+                            <input class="sexo" type="radio" id="feminino" value="F" v-model="sexo">
                         </div>
                         <div class="input-container">
                             <label for="agua">Água:</label>
@@ -70,7 +71,8 @@ import Mensagem from "../components/Mensagem.vue";
 export default {
     name:"AdicionarSobrevivente",
     components:{
-        Title
+        Title,
+        Mensagem
     },
     data(){
         return{
@@ -85,6 +87,8 @@ export default {
             alimentacao:null,
             medicacao:null,
             municao:null,
+            flagMsg: false,
+            msg: null
         }
     },
     methods:{
@@ -104,6 +108,15 @@ export default {
                     municao:this.municao
                 }
             }
+        },
+        showMsg(msg){
+            this.flagMsg = true;
+            this.msg = msg;
+        },
+        removerMsg(time=2000){
+            setTimeout(()=>{
+                this.flagMsg = false;
+            }, time);
         },
         limparCampos(){
             this.nome = null;
@@ -132,7 +145,11 @@ export default {
             );
 
             const res = await req.json();
+
+            this.showMsg("Sobrevivente cadastrado com sucesso!");
+
             this.limparCampos();
+            this.removerMsg();
         },
     }
 }
