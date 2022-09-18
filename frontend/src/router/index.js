@@ -13,27 +13,27 @@ const routes = [
     component: Sobreviventes
   },
   {
-    path: '/inventarios',
+    path: '/inventarios/',
     name: 'inventarios',
     component: Inventarios
   },
   {
-    path: '/comercio',
+    path: '/comercio/',
     name: 'comercio',
     component: Comercio
   },
   {
-    path: '/relatorios',
+    path: '/relatorios/',
     name: 'relatorios',
     component: Relatorios
   },
   {
-    path: '/sobreviventes/adicionar',
+    path: '/sobreviventes/adicionar/',
     name: 'adicionar-sobrevivente',
     component: AdicionarSobrevivente
   },
   {
-    path: '/sobreviventes/alterar-local',
+    path: '/sobreviventes/alterar-local/',
     name: 'alterar-local',
     component: AlterarLocal
   }

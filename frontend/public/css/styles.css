@@ -201,17 +201,6 @@ tr:nth-child(even){
     font-size: 30px;
 }
 
-.pagination-container{
-    padding: 10px;
-}
-
-.pagination{
-    width: fit-content;
-    height: 100%;
-    margin: 5px auto;
-    font-size: 25px;
-}
-
 .prohibited{
     cursor: auto;
     background-color: grey;
@@ -422,4 +411,40 @@ tr:nth-child(even){
 .input-container .sexo{
     width: fit-content;
     margin-left: 40px;
+}
+
+.pagination-container{
+    margin-top: 10px;
+}
+
+.pagination{
+    width: fit-content;
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    margin: 0px auto;
+}
+
+.page-number{
+    width: fit-content;
+    height: fit-content;
+}
+
+.page-number span{
+    display: block;
+    width: fit-content;
+    height: fit-content;
+    color: black;
+}
+
+.page-number div {
+    display: block;
+    width: fit-content;
+    height: fit-content;
+    padding: 5px 10px;
+    font-size: 15px;
+    text-decoration: none;
+    background-color:black;
+    color: white;
+    cursor: pointer;
 }
