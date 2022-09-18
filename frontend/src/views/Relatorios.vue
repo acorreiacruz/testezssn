@@ -15,7 +15,7 @@
                             </td>
                             <td>
                                 <p>Água: {{medias.agua}}</p>
-                                <p>ALimentação: {{medias.alimentacao}}</p>
+                                <p>Alimentação: {{medias.alimentacao}}</p>
                                 <p>Medicação: {{medias.medicacao}}</p>
                                 <p>Munição: {{medias.municao}}</p>
                             </td>
