@@ -6,11 +6,13 @@ from ..models import Sobrevivente
 from ..serializers import SobreviventeSerializer
 from rest_framework import viewsets
 from rest_framework.decorators import action
+from ..pagination import PaginacaoCustomizada
 
 
 class SobreviventeModelViewSet(viewsets.ModelViewSet):
     queryset = Sobrevivente.objects.all()
     serializer_class = SobreviventeSerializer
+    pagination_class = PaginacaoCustomizada
     http_method_names = ['get','post','patch','delete','options']
     campos = ['nome','sexo','infectado','agua','alimentacao','medicacao','municao']
     permission_classes = [AllowAny, EhInfectado]
