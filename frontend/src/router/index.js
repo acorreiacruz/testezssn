@@ -1,10 +1,10 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import Sobreviventes from "../views/Sobreviventes.vue";
-import Inventarios from "../views/Inventarios.vue";
-import Comercio from "../views/Comercio.vue";
-import Relatorios from "../views/Relatorios.vue";
-import AdicionarSobrevivente from "../views/AdicionarSobrevivente.vue";
-import AlterarLocal from "../views/AlterarLocal.vue";
+import { createRouter, createWebHistory } from 'vue-router';
+import Sobreviventes from "../views/sobreviventes/Sobreviventes.vue";
+import Inventarios from "../views/inventarios/Inventarios.vue";
+import Comercio from "../views/comercio/Comercio.vue";
+import Relatorios from "../views/relatorios/Relatorios.vue";
+import AdicionarSobrevivente from "../views/adicionarsobrevivente/AdicionarSobrevivente.vue";
+import AlterarLocal from "../views/alterarlocal/AlterarLocal.vue";
 
 const routes = [
   {
