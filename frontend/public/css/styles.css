@@ -46,14 +46,6 @@
     background-color: rgb(36, 36, 36);
 }
 
-.menu-container a:current{
-    background-color: rgb(36, 36, 36);
-}
-
-.menu-container a:active{
-    background-color: rgb(36, 36, 36);
-}
-
 .main-container{
     padding: 16px 80px;
 }
