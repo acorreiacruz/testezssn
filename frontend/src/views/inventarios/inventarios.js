@@ -1,5 +1,6 @@
 import Title from "../../components/Title.vue";
 import TableHead from "../../components/TableHead.vue";
+import {criarRangeDePaginacao,getRangeDePaginas} from "../../utils/paginacao.js";
 
 export default{
     name:"Inventarios",
@@ -35,49 +36,14 @@ export default{
                 next: dados.next
             }
         },
-        getRange(totalDePaginas){
-
-            const array = [];
-
-            for(let i = 1 ; i <= totalDePaginas ; i++){
-                array.push(i);
-            }
-
-            return array;
-        },
-        criarRangeDePaginacao(rangeDePaginas, quantPaginas, paginaAtual){
-
-            let meio = Math.ceil(quantPaginas / 2);
-            let inicio = paginaAtual - meio;
-            let fim = paginaAtual + meio;
-            let parada = rangeDePaginas.length;
-            let falta;
-
-            falta = inicio < 0 ? Math.abs(inicio) : 0;
-
-            if(inicio < 0){
-                inicio = 0;
-                fim += falta;
-            }
-
-            if(fim >= parada){
-                inicio -= Math.abs(fim - parada);
-            }
-
-            return {
-                primeiraPaginaForaDoRange : paginaAtual > meio,
-                ultimaPaginaForaDoRange : fim < parada,
-                range : rangeDePaginas.slice(inicio, fim)
-            }
-        },
         async carregarDados(page){
 
             const resultado = await this.getInventarios(page);
             this.inventarios = resultado.dados;
             this.totalDePaginas = Math.ceil(resultado.totalDeObjetos / this.porPagina);
 
-            const rangeDePaginas = this.getRange(this.totalDePaginas);
-            const paginacao = this.criarRangeDePaginacao(rangeDePaginas, this.quantPaginas, page);
+            const rangeDePaginas = getRangeDePaginas(this.totalDePaginas);
+            const paginacao = criarRangeDePaginacao(rangeDePaginas, this.quantPaginas, page);
 
             this.range = paginacao.range;
             this.primeiraPaginaForaDoRange = paginacao.primeiraPaginaForaDoRange;
