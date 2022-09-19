@@ -123,7 +123,6 @@ export default {
         async carregarDados(page){
 
             const resultado = await this.getSobreviventes(page);
-            console.log("Pagina", page);
             this.sobreviventes = resultado.dados;
             this.totalDePaginas = Math.ceil(resultado.totalDeObjetos / this.porPagina);
 

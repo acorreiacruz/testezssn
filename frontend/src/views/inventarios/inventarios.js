@@ -73,13 +73,12 @@ export default{
         async carregarDados(page){
 
             const resultado = await this.getInventarios(page);
-            console.log("Pagina", page);
             this.inventarios = resultado.dados;
             this.totalDePaginas = Math.ceil(resultado.totalDeObjetos / this.porPagina);
 
-            // Criando a páginação da página
             const rangeDePaginas = this.getRange(this.totalDePaginas);
             const paginacao = this.criarRangeDePaginacao(rangeDePaginas, this.quantPaginas, page);
+
             this.range = paginacao.range;
             this.primeiraPaginaForaDoRange = paginacao.primeiraPaginaForaDoRange;
             this.ultimaPaginaForaDoRange = paginacao.ultimaPaginaForaDoRange;
